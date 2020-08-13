@@ -16,13 +16,13 @@ public class CacheNpcConfig {
 	public int[] modelIds, materialPointers, d;
 	public int[][] modelOffsets;
 	public int size = 552360651;
-	public int v = -1;
-	public int m = -1;
-	public int h = -1;
-	public int n = -1;
-	public int x = -1;
-	public int o = -1;
-	public int r = -1;
+	public int idleSequence = -1;
+	public int turnLeftSequence = -1;
+	public int turnRightSequence = -1;
+	public int walkSequence = -1;
+	public int walkBackSequence = -1;
+	public int walkLeftSequence = -1;
+	public int walkRightSequence = -1;
 	public final String[] actions = new String[5];
 	public boolean visible = true;
 	public int level = -1;
@@ -31,7 +31,7 @@ public class CacheNpcConfig {
 	public boolean a = false;
 	public int ag = 0;
 	public int am = 0;
-	public int aa = -1;
+	public int headIconPrayer = -1;
 	public int az = -1;
 	public int stageOperation = -1;
 	public int stageIndex = -1;
@@ -79,22 +79,22 @@ public class CacheNpcConfig {
 					this.size = stream.getUByte();
 					break;
 				case 13:
-					this.v = stream.getUShort();
+					this.idleSequence = stream.getUShort();
 					break;
 				case 14:
-					this.n = stream.getUShort();
+					this.walkSequence = stream.getUShort();
 					break;
 				case 15:
-					this.m = stream.getUShort();
+					this.turnLeftSequence = stream.getUShort();
 					break;
 				case 16:
-					this.h = stream.getUShort();
+					this.turnRightSequence = stream.getUShort();
 					break;
 				case 17:
-					this.n = stream.getUShort();
-					this.x = stream.getUShort();
-					this.o = stream.getUShort();
-					this.r = stream.getUShort();
+					this.walkSequence = stream.getUShort();
+					this.walkBackSequence = stream.getUShort();
+					this.walkLeftSequence = stream.getUShort();
+					this.walkRightSequence = stream.getUShort();
 					break;
 				case 30:
 				case 31:
@@ -156,7 +156,7 @@ public class CacheNpcConfig {
 					this.am = stream.getByte();
 					break;
 				case 102:
-					this.aa = stream.getUShort();
+					this.headIconPrayer = stream.getUShort();
 					break;
 				case 103:
 					this.az = stream.getUShort();
