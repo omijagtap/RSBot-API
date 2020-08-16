@@ -12,6 +12,7 @@ import java.util.Iterator;
 public class Widget extends ClientAccessor implements Identifiable, Validatable, Iterable<Component> {
 	private final int index;
 	private Component[] sparseCache;
+	private CacheComponentConfig[] cacheConfigs;
 
 	/**
 	 * Represents an interactive display window which stores {@link Component}s
@@ -24,6 +25,7 @@ public class Widget extends ClientAccessor implements Identifiable, Validatable,
 		super(ctx);
 		this.index = index;
 		sparseCache = new Component[0];
+		cacheConfigs = CacheComponentConfig.load(ctx.bot().getCacheWorker(), index);
 	}
 
 	/**
@@ -32,6 +34,10 @@ public class Widget extends ClientAccessor implements Identifiable, Validatable,
 	@Override
 	public int id() {
 		return index;
+	}
+
+	public CacheComponentConfig[] cacheConfigs() {
+		return cacheConfigs;
 	}
 
 	/**
