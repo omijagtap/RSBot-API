@@ -23,10 +23,11 @@ public class Reflector {
 	}
 
 	public static class FieldConfig {
-		private final String parent, name, type;
+		private final String getterName, parent, name, type;
 		private final long multiplier;
 
-		public FieldConfig(final String parent, final String name, final String type, final long multiplier) {
+		public FieldConfig(final String getterName, final String parent, final String name, final String type, final long multiplier) {
+			this.getterName = getterName;
 			this.parent = parent;
 			this.name = name;
 			this.type = type;
@@ -35,7 +36,27 @@ public class Reflector {
 
 		@Override
 		public String toString() {
-			return String.format("%s[parent=%s;name=%s;type=%s;mult=%d;]", "FieldConfig", parent, name, type, multiplier);
+			return String.format("FieldConfig[getterName=%s;parent=%s;name=%s;type=%s;mult=%d;]", getterName, parent, name, type, multiplier);
+		}
+
+		public String getParent() {
+			return parent;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public long getMultiplier() {
+			return multiplier;
+		}
+
+		public String getGetterName() {
+			return getterName;
 		}
 	}
 
@@ -52,11 +73,11 @@ public class Reflector {
 		}
 	}
 
-	public boolean accessBool(final ReflectProxy accessor, final FieldCache c) {
+	public boolean accessBool(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, false);
 	}
 
-	public int accessInt(final ReflectProxy accessor, final FieldCache c) {
+	public int accessInt(final Proxy accessor, final FieldCache c) {
 		final FieldConfig f = c.c != null ? c.c : (c.c = getFieldConfig());
 		if (f == null) {
 			return -1;
@@ -65,11 +86,11 @@ public class Reflector {
 		return i != null ? i * (int) f.multiplier : -1;
 	}
 
-	public int[] accessInts(final ReflectProxy accessor, final FieldCache c) {
+	public int[] accessInts(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, int[].class);
 	}
 
-	public long accessLong(final ReflectProxy accessor, final FieldCache c) {
+	public long accessLong(final Proxy accessor, final FieldCache c) {
 		final FieldConfig f = c.c != null ? c.c : (c.c = getFieldConfig());
 		if (f == null) {
 			return -1L;
@@ -78,35 +99,35 @@ public class Reflector {
 		return j != null ? j * f.multiplier : -1L;
 	}
 
-	public float accessFloat(final ReflectProxy accessor, final FieldCache c) {
+	public float accessFloat(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, -1f);
 	}
 
-	public double accessDouble(final ReflectProxy accessor, final FieldCache c) {
+	public double accessDouble(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, -1d);
 	}
 
-	public byte accessByte(final ReflectProxy accessor, final FieldCache c) {
+	public byte accessByte(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, (byte) -1);
 	}
 
-	public short accessShort(final ReflectProxy accessor, final FieldCache c) {
+	public short accessShort(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, (short) -1);
 	}
 
-	public String accessString(final ReflectProxy accessor, final FieldCache c) {
+	public String accessString(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, String.class);
 	}
 
-	public Object access(final ReflectProxy accessor, final FieldCache c) {
+	public Object access(final Proxy accessor, final FieldCache c) {
 		return access(accessor, c, Object.class);
 	}
 
-	public <T> T access(final ReflectProxy accessor, final FieldCache c, final Class<T> t) {
+	public <T> T access(final Proxy accessor, final FieldCache c, final Class<T> t) {
 		return access(accessor, c.c != null ? c.c : (c.c = getFieldConfig()), t);
 	}
 
-	private <T> T access(final ReflectProxy accessor, final FieldConfig r, final Class<T> t) {
+	private <T> T access(final Proxy accessor, final FieldConfig r, final Class<T> t) {
 		final Object p = accessor.obj.get();
 		if (r == null) {
 			return null;
@@ -147,7 +168,7 @@ public class Reflector {
 		return o != null ? t.cast(o) : null;
 	}
 
-	private <T> T access(final ReflectProxy accessor, final FieldCache c, final T d) {
+	private <T> T access(final Proxy accessor, final FieldCache c, final T d) {
 		@SuppressWarnings("unchecked") final T v = (T) access(accessor, c, d.getClass());
 		return v == null ? d : v;
 	}
@@ -193,7 +214,7 @@ public class Reflector {
 		return c;
 	}
 
-	public boolean isTypeOf(final Object o, final Class<? extends ReflectProxy> c) {
+	public boolean isTypeOf(final Object o, final Class<? extends Proxy> c) {
 		try {
 			final String s = getGroupClass(c.getName());
 			if (o == null || s == null) {
@@ -208,8 +229,14 @@ public class Reflector {
 
 	private FieldConfig getFieldConfig() {
 		final StackTraceElement e = getCallingAPI();
-		final String c = e.getClassName().replace('.', '/'), m = e.getMethodName(),
-				k = (c.endsWith("Client") ? "" : c + '.') + m;
+		String className = e.getClassName().replace('.', '/');
+		String methodName = e.getMethodName();
+		if (className.endsWith("/INode") && methodName.equals("getId")) {
+			methodName = "getNodeId";
+		}
+		if (methodName.equals("getNodeId")) methodName = "getId";
+
+		final String k = (className.endsWith("Client") ? "" : className + '.') + methodName;
 		final FieldConfig r = configs.get(k);
 		if (r == null) {
 			throw new RuntimeException("Config missing for " + k);

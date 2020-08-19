@@ -28,7 +28,7 @@ public class Players extends PlayerQuery<Player> {
 		for (int index = 0; index < Math.min(client.getPlayerCount(), indices.length); index++) {
 			final int k = indices[index];
 			final org.powerbot.bot.rt4.client.Player p = players[k];
-			if (p.obj.get() != null) {
+			if (!p.isNull()) {
 				r.add(new Player(ctx, p));
 			}
 		}

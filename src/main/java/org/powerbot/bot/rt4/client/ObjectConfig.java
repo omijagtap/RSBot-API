@@ -2,7 +2,7 @@ package org.powerbot.bot.rt4.client;
 
 import org.powerbot.bot.*;
 
-public class ObjectConfig extends ReflectProxy {
+public class ObjectConfig extends Proxy {
 	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
 			b = new Reflector.FieldCache(),
 			c = new Reflector.FieldCache(),

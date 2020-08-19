@@ -43,6 +43,10 @@ public class Projectiles extends IdQuery<org.powerbot.script.rt4.Projectile> {
 	 */
 	@Override
 	public org.powerbot.script.rt4.Projectile nil() {
+		if (ctx.bot().isInjection()) {
+			return new org.powerbot.script.rt4.Projectile(ctx, new Projectile(null));
+		}
+
 		return new org.powerbot.script.rt4.Projectile(ctx, new Projectile(ctx.client().reflector, null));
 	}
 }

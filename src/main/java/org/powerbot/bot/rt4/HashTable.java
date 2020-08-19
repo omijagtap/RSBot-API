@@ -3,8 +3,6 @@ package org.powerbot.bot.rt4;
 import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -30,25 +28,22 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 
 	@Override
 	public boolean hasNext() {
-		if (next != null) {
-			return true;
-		}
 		final org.powerbot.bot.rt4.client.Node[] buckets = !table.isNull() ? table.getBuckets() : null;
 		if (buckets == null) {
 			return false;
 		}
-		final Object c = curr != null ? curr.obj.get() : null;
-		if (bucket_index > 0 && bucket_index <= buckets.length && buckets[bucket_index - 1].obj.get() != c) {
+		final long c = curr != null ? curr.getNodeId() : -1L;
+		if (bucket_index > 0 && bucket_index <= buckets.length && buckets[bucket_index - 1].getNodeId() != c) {
 			next = curr;
 			curr = curr.getNext();
-			return true;
+			return next != null;
 		}
 		while (bucket_index < buckets.length) {
 			final org.powerbot.bot.rt4.client.Node n = buckets[bucket_index++].getNext();
-			if (buckets[bucket_index - 1].obj.get() != n.obj.get()) {
+			if (buckets[bucket_index - 1].getNodeId() != n.getNodeId()) {
 				next = n;
 				curr = n.getNext();
-				return true;
+				return next != null;
 			}
 		}
 		return false;
@@ -59,19 +54,8 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 		if (!hasNext()) {
 			throw new NoSuchElementException();
 		}
-		final Constructor<N> c;
-		try {
-			c = type.getDeclaredConstructor(Reflector.class, Object.class);
-		} catch (final NoSuchMethodException e) {
-			return null;
-		}
-		N n = null;
-		try {
-			n = c.newInstance(table.reflector, next.obj.get());
-		} catch (final InstantiationException | InvocationTargetException | IllegalAccessException ignored) {
-		}
-		next = null;
-		return n;
+
+		return IteratorUtils.newInstance(table, next, type);
 	}
 
 
@@ -80,38 +64,24 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 		throw new UnsupportedOperationException();
 	}
 
-	public static <E extends ReflectProxy> E lookup(final org.powerbot.bot.rt4.client.IterableHashTable table, final long id, final Class<E> type) {
+	public static <E extends Proxy> E lookup(final org.powerbot.bot.rt4.client.IterableHashTable table, final long id, final Class<E> type) {
 		if (table == null) {
 			return null;
 		}
-		final Constructor<E> c;
-		try {
-			c = type.getDeclaredConstructor(Reflector.class, Object.class);
-		} catch (final NoSuchMethodException e) {
-			return null;
-		}
+
 		final Node[] buckets = table.getBuckets();
 		if (buckets == null || buckets.length == 0) {
-			try {
-				return c.newInstance(table.reflector, null);
-			} catch (final InstantiationException | InvocationTargetException | IllegalAccessException ignored) {
-			}
-			return null;
+			return IteratorUtils.newInstance(table, null, type);
 		}
+
 		final Node n = buckets[(int) (id & buckets.length - 1)];
 		for (Node o = n.getNext(); !o.equals(n) && !o.isNull(); o = o.getNext()) {
-			if (o.getId() == id) {
-				try {
-					return c.newInstance(table.reflector, o);
-				} catch (final InstantiationException | InvocationTargetException | IllegalAccessException ignored) {
-				}
+			if (o.getNodeId() == id) {
+				return IteratorUtils.newInstance(table, o, type);
 			}
 		}
-		try {
-			return c.newInstance(table.reflector, null);
-		} catch (final InstantiationException | InvocationTargetException | IllegalAccessException ignored) {
-		}
-		return null;
+
+		return IteratorUtils.newInstance(table, null, type);
 	}
 }
 

@@ -1,9 +1,11 @@
 package org.powerbot.bot.rt4.client;
 
-import org.powerbot.bot.ReflectProxy;
+import org.powerbot.bot.Proxy;
 import org.powerbot.bot.Reflector;
+import org.powerbot.bot.rt4.client.internal.IHashTable;
+import org.powerbot.bot.rt4.client.internal.INode;
 
-public class HashTable extends ReflectProxy {
+public class HashTable extends Proxy<IHashTable> {
 	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
 			b = new Reflector.FieldCache();
 
@@ -11,7 +13,23 @@ public class HashTable extends ReflectProxy {
 		super(engine, parent);
 	}
 
+	public HashTable(final IHashTable wrapped) {
+		super(wrapped);
+	}
+
 	public Node[] getBuckets() {
+		if (wrapped != null) {
+			final INode[] nodes = wrapped.get().getBuckets();
+			final Node[] buckets = nodes != null ? new Node[nodes.length] : null;
+			if (nodes != null) {
+				for (int i = 0; i < nodes.length; i++) {
+					buckets[i] = new Node(nodes[i]);
+				}
+			}
+
+			return buckets;
+		}
+
 		final Object[] arr = reflector.access(this, a, Object[].class);
 		final Node[] arr2 = arr != null ? new Node[arr.length] : null;
 		if (arr != null) {
@@ -23,6 +41,10 @@ public class HashTable extends ReflectProxy {
 	}
 
 	public int getSize() {
+		if (wrapped != null) {
+			return wrapped.get().getSize();
+		}
+
 		return reflector.accessInt(this, b);
 	}
 }

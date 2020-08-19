@@ -21,13 +21,12 @@ public class Projectile extends ClientAccessor implements Locatable, Identifiabl
 
 	@Override
 	public boolean valid() {
-		return projectile.obj.get() != null && ctx.projectiles.select().contains(this);
+		return !projectile.isNull() && ctx.projectiles.select().contains(this);
 	}
 
 	@Override
 	public int hashCode() {
-		final Object i;
-		return (i = this.projectile.obj.get()) != null ? System.identityHashCode(i) : 0;
+		return this.projectile.hashCode();
 	}
 
 	@Override

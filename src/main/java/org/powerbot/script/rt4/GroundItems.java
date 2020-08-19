@@ -66,6 +66,9 @@ public class GroundItems extends BasicQuery<GroundItem> {
 
 	@Override
 	public GroundItem nil() {
+		if (ctx.bot().isInjection()) {
+			return new GroundItem(ctx, Tile.NIL, new ItemNode(null));
+		}
 		return new GroundItem(ctx, Tile.NIL, new ItemNode(ctx.client().reflector, null));
 	}
 }

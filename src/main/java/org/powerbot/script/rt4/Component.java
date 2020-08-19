@@ -57,16 +57,18 @@ public class Component extends Interactive {
 	public Point screenPoint() {
 		final Client client = ctx.client();
 		final org.powerbot.bot.rt4.client.Widget widget = getInternal();
-		if (client == null || widget == null) {
+		if (client == null || widget == null || widget.isNull()) {
 			return new Point(-1, -1);
 		}
 		final int parentId = parentId();
 		int x = widget.getX(), y = widget.getY();
 		if (parentId != -1) {
 			final Component parent = ctx.widgets.component(parentId >> 16, parentId & 0xffff);
-			final Point p = parent.screenPoint();
-			x += p.x - parent.scrollX();
-			y += p.y - parent.scrollY();
+			if (parent != null ) {
+				final Point p = parent.screenPoint();
+				x += p.x - parent.scrollX();
+				y += p.y - parent.scrollY();
+			}
 		} else {
 			final int index = widget.getBoundsIndex();
 			final int[] boundsX = client.getWidgetBoundsX();
@@ -131,8 +133,9 @@ public class Component extends Interactive {
 
 		final int uid = id() >>> 16;
 		for (final WidgetNode node : new HashTable<>(client.getWidgetTable(), WidgetNode.class)) {
+//			System.out.println("v" + ":" + uid +":" + node.getUid());
 			if (uid == node.getUid()) {
-				return (int) node.getId();
+				return (int) node.getNodeId();
 			}
 		}
 		return -1;

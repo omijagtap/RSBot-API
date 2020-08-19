@@ -2,6 +2,9 @@ package org.powerbot.script.rt4;
 
 import org.powerbot.bot.rt4.client.Client;
 import org.powerbot.bot.rt4.client.*;
+import org.powerbot.bot.rt4.client.internal.ICombatStatus;
+import org.powerbot.bot.rt4.client.internal.ICombatStatusData;
+import org.powerbot.bot.rt4.client.internal.INode;
 import org.powerbot.script.Tile;
 import org.powerbot.script.*;
 
@@ -269,7 +272,7 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		return actor != null ? actor.hashCode() : 0;
 	}
 
-	private Node[] getBarNodes() {
+	private CombatStatus[] getBarNodes() {
 		final org.powerbot.bot.rt4.client.Actor accessor = getActor();
 		if (accessor == null) {
 			return null;
@@ -279,22 +282,46 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 			return null;
 		}
 		final Node tail = barList.getSentinel();
-		final Node health;
-		final Node secondary;
+		final CombatStatus health;
+		final CombatStatus secondary;
 		final Node current;
 		current = tail.getNext();
-		if (!current.getNext().equals(tail)) {
-			secondary = current;
-			health = current.getNext();
+		if (current.getNext().getNodeId() != tail.getNodeId()) {
+			if (ctx.bot().isInjection()) {
+				if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
+					secondary = new CombatStatus((ICombatStatus) current.get());
+				} else {
+					secondary = null;
+				}
+			} else {
+				secondary = new CombatStatus(current.reflector, current);
+			}
+			if (ctx.bot().isInjection()) {
+				if (ICombatStatus.class.isAssignableFrom(current.getNext().get().getClass())) {
+					health = new CombatStatus((ICombatStatus) current.getNext().get());
+				} else {
+					health = null;
+				}
+			} else {
+				health = new CombatStatus(current.getNext().reflector, current.getNext());
+			}
 		} else {
 			secondary = null;
-			health = current;
+			if (ctx.bot().isInjection()) {
+				if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
+					health = new CombatStatus((ICombatStatus) current.get());
+				} else {
+					health = null;
+				}
+			} else {
+				health = new CombatStatus(current.reflector, current);
+			}
 		}
-		return new Node[]{secondary, health};
+		return new CombatStatus[]{secondary, health};
 	}
 
 	private BarComponent getBarComponent(){
-		final Node[] nodes = getBarNodes();
+		final CombatStatus[] nodes = getBarNodes();
 		final Client client = ctx.client();
 		if (nodes == null || client == null) {
 			return null;
@@ -306,7 +333,13 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 				data[i] = null;
 				continue;
 			}
-			final CombatStatus status = new CombatStatus(nodes[i].reflector, nodes[i]);
+			final CombatStatus status;
+			if (ctx.bot().isInjection()) {
+				INode node = (INode) nodes[i].wrapped.get();
+				status = new CombatStatus((ICombatStatus) node);
+			} else {
+				status = new CombatStatus(nodes[i].reflector, nodes[i]);
+			}
 			final org.powerbot.bot.rt4.client.BarComponent barComponent;
 			try {
 				barComponent = status.getBarComponent();
@@ -319,19 +352,19 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 	}
 
 	private CombatStatusData[] getBarData() {
-		final Node[] nodes = getBarNodes();
+		final CombatStatus[] nodes = getBarNodes();
 		final Client client = ctx.client();
 		if (nodes == null || client == null) {
 			return null;
 		}
 		final CombatStatusData[] data = new CombatStatusData[nodes.length];
 		for (int i = 0; i < nodes.length; i++) {
-			if (nodes[i] == null || nodes[i].isNull() ||
-					!nodes[i].isTypeOf(CombatStatus.class)) {
+			if (nodes[i] == null || nodes[i].isNull()) {
 				data[i] = null;
 				continue;
 			}
-			final CombatStatus status = new CombatStatus(nodes[i].reflector, nodes[i]);
+			final CombatStatus status = nodes[i];
+
 			final org.powerbot.bot.rt4.client.LinkedList statuses;
 			try {
 				statuses = status.getList();
@@ -342,12 +375,16 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 				data[i] = null;
 				continue;
 			}
-			final Node node = statuses.getSentinel().getNext();
+			final Node<ICombatStatus> node = statuses.getSentinel().getNext();
 			if (node.isNull() || !node.isTypeOf(CombatStatusData.class)) {
 				data[i] = null;
 				continue;
 			}
-			data[i] = new CombatStatusData(node.reflector, node);
+			if (ctx.bot().isInjection()) {
+				data[i] = new CombatStatusData((ICombatStatusData) node.get());
+			} else {
+				data[i] = new CombatStatusData(node.reflector, node);
+			}
 		}
 		return data;
 	}
