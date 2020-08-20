@@ -9,6 +9,9 @@ public class ItemPile extends Proxy<IItemPile> {
 		super(wrapped);
 	}
 
+	/**
+	 * @deprecated Use GroundItems instead
+	 */
 	public ItemNode getItem1() {
 		if (!isNull()) {
 			//TODO support this
@@ -19,6 +22,9 @@ public class ItemPile extends Proxy<IItemPile> {
 		return null;
 	}
 
+	/**
+	 * @deprecated Use GroundItems instead
+	 */
 	public ItemNode getItem2() {
 		if (!isNull()) {
 			//TODO support this
@@ -29,6 +35,9 @@ public class ItemPile extends Proxy<IItemPile> {
 		return null;
 	}
 
+	/**
+	 * @deprecated Use GroundItems instead
+	 */
 	public ItemNode getItem3() {
 		if (!isNull()) {
 			//TODO support this
@@ -39,6 +48,9 @@ public class ItemPile extends Proxy<IItemPile> {
 		return null;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public int getY() {
 		return -1;
 	}
