@@ -228,7 +228,6 @@ public class Reflector {
 		if (className.endsWith("/INode") && methodName.equals("getId")) {
 			methodName = "getNodeId";
 		}
-		if (methodName.equals("getNodeId")) methodName = "getId";
 
 		final String k = (className.endsWith("Client") ? "" : className + '.') + methodName;
 		final FieldConfig r = configs.get(k);
