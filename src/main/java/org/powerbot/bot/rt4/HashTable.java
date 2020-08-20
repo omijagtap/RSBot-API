@@ -52,7 +52,7 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 	@Override
 	public N next() {
 		if (!hasNext()) {
-			throw new NoSuchElementException();
+			return null;
 		}
 
 		return IteratorUtils.newInstance(table, next, type);

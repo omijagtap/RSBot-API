@@ -2,6 +2,7 @@ package org.powerbot.script;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
  * @param <K> the subject type
  * @param <C> the {@link ClientContext}
  */
-public abstract class AbstractQuery<T extends AbstractQuery<T, K, C>, K, C extends ClientContext> extends ClientAccessor<C> implements Iterable<K>, Nillable<K> {
+public abstract class AbstractQuery<T extends AbstractQuery<T, K, C>, K, C extends ClientContext> extends ClientAccessor<C> implements Supplier<List<K>>, Iterable<K>, Nillable<K> {
 	private final ThreadLocal<List<K>> items;
 
 	/**
@@ -38,19 +39,17 @@ public abstract class AbstractQuery<T extends AbstractQuery<T, K, C>, K, C exten
 	 *
 	 * @return a new data set for subsequent queries
 	 */
-	protected abstract List<K> get();
+	public abstract List<K> get();
 
 	/**
 	 * Returns a {@link Stream} with this collection as its source.
 	 *
 	 * @return a sequential {@link Stream} over the elements in this collection
+	 * @deprecated use {@link #get()} then {@link List#stream()}
 	 */
+	@Deprecated
 	public final Stream<K> stream() {
-		final Stream.Builder<K> s = Stream.builder();
-		for (final K k : items.get()) {
-			s.accept(k);
-		}
-		return s.build();
+		return get().stream();
 	}
 
 	/**

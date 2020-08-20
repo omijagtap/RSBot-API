@@ -14,13 +14,23 @@ import java.awt.*;
  * Actor
  * A base class of all characters within Runescape.
  */
-public abstract class Actor extends Interactive implements InteractiveEntity, Nameable, Validatable , Modelable {
+public abstract class Actor extends Interactive implements InteractiveEntity, Nameable, Validatable, Modelable {
 
-	private Model model;
+	private final BoundingModel defaultBounds = new BoundingModel(ctx, -32, 32, -192, 0, -32, 32) {
+		@Override
+		public int x() {
+			return relative() >> 16;
+		}
+
+		@Override
+		public int z() {
+			return relative() & 0xffff;
+		}
+	};
 
 	Actor(final ClientContext ctx) {
 		super(ctx);
-		bounds(new int[]{-32, 32, -192, 0, -32, 32});
+		boundingModel.set(defaultBounds);
 	}
 
 	@Override
@@ -28,14 +38,12 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		boundingModel.set(new BoundingModel(ctx, x1, x2, y1, y2, z1, z2) {
 			@Override
 			public int x() {
-				final int r = relative();
-				return r >> 16;
+				return relative() >> 16;
 			}
 
 			@Override
 			public int z() {
-				final int r = relative();
-				return r & 0xffff;
+				return relative() & 0xffff;
 			}
 		});
 	}
@@ -146,6 +154,10 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		if (data == null || data[1] == null) {
 			return 100;
 		}
+		if (getBarComponent() == null) {
+			return 100;
+		}
+
 		return (int) Math.ceil(data[1].getHealthRatio() * 100d / getBarComponent().getWidth());
 	}
 
@@ -204,7 +216,7 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 				return new Player(ctx, client.getPlayer());
 			}
 			final org.powerbot.bot.rt4.client.Player[] players = client.getPlayers();
-			return pos >= 0 && pos < players.length ? new Player(ctx, players[pos]) : nil;
+			return pos < players.length ? new Player(ctx, players[pos]) : nil;
 		}
 	}
 
@@ -233,28 +245,63 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 	@Override
 	public Point nextPoint() {
 		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+		if (actor == null) {
+			return NIL_POINT;
+		}
+		// Non-default custom bounds take priority
 		final BoundingModel model2 = boundingModel.get();
-		if (actor != null && model2 != null) {
+		if (model2 != null && !model2.equals(defaultBounds)) {
 			return model2.nextPoint();
 		}
-		return new Point(-1, -1);
+		final Model model = model();
+		if (model == null) {
+			return model2 != null ? model2.nextPoint() : NIL_POINT;
+		}
+		final Point next = model.nextPoint(localX(), localY(), modelOrientation());
+		if (!next.equals(NIL_POINT)) {
+			return next;
+		}
+		return model2 != null ? model2.nextPoint() : NIL_POINT;
 	}
 
 	@Override
 	public Point centerPoint() {
 		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+		if (actor == null) {
+			return NIL_POINT;
+		}
+		// Non-default custom bounds take priority
 		final BoundingModel model2 = boundingModel.get();
-		if (actor != null && model2 != null) {
+		if (model2 != null && !model2.equals(defaultBounds)) {
 			return model2.centerPoint();
 		}
-		return new Point(-1, -1);
+		final Model model = model();
+		if (model == null) {
+			return model2 != null ? model2.centerPoint() : NIL_POINT;
+		}
+		final Point center = model.centerPoint(localX(), localY(), modelOrientation());
+		if (!center.equals(NIL_POINT)) {
+			return center;
+		}
+		return model2 != null ? model2.centerPoint() : NIL_POINT;
 	}
 
 	@Override
 	public boolean contains(final Point point) {
 		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+		if (actor == null) {
+			return false;
+		}
+		// Non-default custom bounds take priority
 		final BoundingModel model2 = boundingModel.get();
-		return actor != null && model2 != null && model2.contains(point);
+		if (model2 != null && !model2.equals(defaultBounds)) {
+			return model2.contains(point);
+		}
+		final Model model = model();
+		if (model == null || model.nextPoint(localX(), localY(), modelOrientation()).equals(NIL_POINT)) {
+			return model2 != null && model2.contains(point);
+		}
+		return model.contains(point, localX(), localY(), modelOrientation());
 	}
 
 	@Override
@@ -326,27 +373,20 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		if (nodes == null || client == null) {
 			return null;
 		}
-		final CombatStatusData[] data = new CombatStatusData[nodes.length];
-		for (int i = 0; i < nodes.length; i++) {
-			if (nodes[i] == null || nodes[i].isNull() ||
-					!nodes[i].isTypeOf(CombatStatus.class)) {
-				data[i] = null;
+		for (CombatStatus node : nodes) {
+			if (node == null || node.isNull() ||
+				!node.isTypeOf(CombatStatus.class)) {
 				continue;
 			}
+
 			final CombatStatus status;
 			if (ctx.bot().isInjection()) {
-				INode node = (INode) nodes[i].wrapped.get();
-				status = new CombatStatus((ICombatStatus) node);
+				status = new CombatStatus(node.wrapped.get());
 			} else {
-				status = new CombatStatus(nodes[i].reflector, nodes[i]);
-			}
-			final org.powerbot.bot.rt4.client.BarComponent barComponent;
-			try {
-				barComponent = status.getBarComponent();
-				return barComponent;
-			} catch (final IllegalArgumentException ignored) {
+				status = new CombatStatus(node.reflector, node);
 			}
 
+			return status.getBarComponent();
 		}
 		return null;
 	}
@@ -414,5 +454,4 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		final org.powerbot.bot.rt4.client.Actor actor = getActor();
 		return actor != null ? actor.getOrientation() : -1;
 	}
-
 }

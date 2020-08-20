@@ -39,6 +39,10 @@ public class Component extends Interactive {
 	public void bounds(final int x1, final int x2, final int y1, final int y2, final int z1, final int z2) {
 	}
 
+	public CacheComponentConfig cacheConfig() {
+		return widget.cacheConfigs()[index];
+	}
+
 	public Widget widget() {
 		return widget;
 	}
@@ -133,8 +137,7 @@ public class Component extends Interactive {
 
 		final int uid = id() >>> 16;
 		for (final WidgetNode node : new HashTable<>(client.getWidgetTable(), WidgetNode.class)) {
-//			System.out.println("v" + ":" + uid +":" + node.getUid());
-			if (uid == node.getUid()) {
+			if (node != null && uid == node.getUid()) {
 				return (int) node.getNodeId();
 			}
 		}

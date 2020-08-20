@@ -12,6 +12,7 @@ import java.util.Iterator;
 public class Widget extends ClientAccessor implements Identifiable, Validatable, Iterable<Component> {
 	private final int index;
 	private Component[] sparseCache;
+	private CacheComponentConfig[] cacheConfigs;
 
 	/**
 	 * Represents an interactive display window which stores {@link Component}s
@@ -24,6 +25,7 @@ public class Widget extends ClientAccessor implements Identifiable, Validatable,
 		super(ctx);
 		this.index = index;
 		sparseCache = new Component[0];
+		cacheConfigs = CacheComponentConfig.load(ctx.bot().getCacheWorker(), index);
 	}
 
 	/**
@@ -32,6 +34,10 @@ public class Widget extends ClientAccessor implements Identifiable, Validatable,
 	@Override
 	public int id() {
 		return index;
+	}
+
+	public CacheComponentConfig[] cacheConfigs() {
+		return cacheConfigs;
 	}
 
 	/**
@@ -93,7 +99,7 @@ public class Widget extends ClientAccessor implements Identifiable, Validatable,
 		}
 		final Client client = ctx.client();
 		final org.powerbot.bot.rt4.client.Widget[][] arr = client != null ? client.getWidgets() : null;
-		return arr != null && index > -1 && index < arr.length && arr[index] != null && arr[index].length > 0;
+		return arr != null && index < arr.length && arr[index] != null && arr[index].length > 0;
 	}
 
 	@Override

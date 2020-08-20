@@ -79,9 +79,6 @@ public class Reflector {
 
 	public int accessInt(final Proxy accessor, final FieldCache c) {
 		final FieldConfig f = c.c != null ? c.c : (c.c = getFieldConfig());
-		if (f == null) {
-			return -1;
-		}
 		final Integer i = access(accessor, f, Integer.class);
 		return i != null ? i * (int) f.multiplier : -1;
 	}
@@ -92,9 +89,6 @@ public class Reflector {
 
 	public long accessLong(final Proxy accessor, final FieldCache c) {
 		final FieldConfig f = c.c != null ? c.c : (c.c = getFieldConfig());
-		if (f == null) {
-			return -1L;
-		}
 		final Long j = access(accessor, f, Long.class);
 		return j != null ? j * f.multiplier : -1L;
 	}

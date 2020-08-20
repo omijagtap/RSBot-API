@@ -199,7 +199,7 @@ public class Camera extends ClientAccessor {
 	 * @param dev the yaw deviation
 	 */
 	public void turnTo(final Locatable l, final int dev) {
-		final int a = getAngleToLocatable(l);
+		final int a = angleToLocatable(l);
 		if (dev == 0) {
 			angle(a);
 		} else {
@@ -207,10 +207,10 @@ public class Camera extends ClientAccessor {
 		}
 	}
 
-	private int getAngleToLocatable(final Locatable mobile) {
+	public int angleToLocatable(final Locatable mobile) {
 		final Player local = ctx.players.local();
 		final Tile t1 = local != null ? local.tile() : null;
-		final Tile t2 = mobile.tile();
+		final Tile t2 = mobile != null ? mobile.tile() : null;
 		return t1 != null && t2 != null ? ((int) Math.toDegrees(Math.atan2(t2.y() - t1.y(), t2.x() - t1.x()))) - 90 : 0;
 	}
 }

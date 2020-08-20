@@ -3,6 +3,7 @@ package org.powerbot.script.rt4;
 import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.Client;
 import org.powerbot.bot.rt4.client.*;
+import org.powerbot.bot.rt4.client.internal.IMessageEntry;
 import org.powerbot.script.*;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ public class Chat extends TextQuery<ChatOption> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected List<ChatOption> get() {
+	public List<ChatOption> get() {
 		final List<ChatOption> options = new ArrayList<>(5);
 		final Component parent = ctx.widgets.component(Constants.CHAT_WIDGET, 1);
 		for (int i = 0; i < 5; i++) {
@@ -58,7 +59,12 @@ public class Chat extends TextQuery<ChatOption> {
 				Entry c = s.getNext();
 				final Entry f = c;
 				while (!s.equals(c) && !c.isNull() && !c.equals(previous.get())) {
-					final MessageEntry m = new MessageEntry(c.reflector, c);
+					final MessageEntry m;
+					if (ctx.bot().isInjection()) {
+						m = new MessageEntry((IMessageEntry) c.get());
+					} else {
+						m = new MessageEntry(c.reflector, c);
+					}
 					e.dispatch(new MessageEvent(m));
 					c = c.getNext();
 				}
