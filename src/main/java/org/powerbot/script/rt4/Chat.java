@@ -59,12 +59,7 @@ public class Chat extends TextQuery<ChatOption> {
 				Entry c = s.getNext();
 				final Entry f = c;
 				while (!s.equals(c) && !c.isNull() && !c.equals(previous.get())) {
-					final MessageEntry m;
-					if (ctx.bot().isInjection()) {
-						m = new MessageEntry((IMessageEntry) c.get());
-					} else {
-						m = new MessageEntry(c.reflector, c);
-					}
+					final MessageEntry m = new MessageEntry((IMessageEntry) c.get());
 					e.dispatch(new MessageEvent(m));
 					c = c.getNext();
 				}

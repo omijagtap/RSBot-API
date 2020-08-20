@@ -6,160 +6,85 @@ import org.powerbot.bot.rt4.client.internal.*;
 import javax.security.auth.PrivateCredentialPermission;
 
 public class Client extends Proxy<IClient> implements org.powerbot.script.Client {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache(),
-			d = new Reflector.FieldCache(),
-			e = new Reflector.FieldCache(),
-			f = new Reflector.FieldCache(),
-			i = new Reflector.FieldCache(),
-			j = new Reflector.FieldCache(),
-			k = new Reflector.FieldCache(),
-			l = new Reflector.FieldCache(),
-			m = new Reflector.FieldCache(),
-			n = new Reflector.FieldCache(),
-			o = new Reflector.FieldCache(),
-			p = new Reflector.FieldCache(),
-			q = new Reflector.FieldCache(),
-			r = new Reflector.FieldCache(),
-			s = new Reflector.FieldCache(),
-			t = new Reflector.FieldCache(),
-			u = new Reflector.FieldCache(),
-			v = new Reflector.FieldCache(),
-			w = new Reflector.FieldCache(),
-			x = new Reflector.FieldCache(),
-			y = new Reflector.FieldCache(),
-			z = new Reflector.FieldCache(),
-			aa = new Reflector.FieldCache(),
-			ab = new Reflector.FieldCache(),
-			ac = new Reflector.FieldCache(),
-			ad = new Reflector.FieldCache(),
-			ae = new Reflector.FieldCache(),
-			af = new Reflector.FieldCache(),
-			ag = new Reflector.FieldCache(),
-			ah = new Reflector.FieldCache(),
-			ai = new Reflector.FieldCache(),
-			aj = new Reflector.FieldCache(),
-			ak = new Reflector.FieldCache(),
-			al = new Reflector.FieldCache(),
-			am = new Reflector.FieldCache(),
-			an = new Reflector.FieldCache(),
-			ao = new Reflector.FieldCache(),
-			ap = new Reflector.FieldCache(),
-			aq = new Reflector.FieldCache(),
-			ar = new Reflector.FieldCache(),
-			as = new Reflector.FieldCache(),
-			at = new Reflector.FieldCache(),
-			au = new Reflector.FieldCache(),
-			av = new Reflector.FieldCache(),
-			aw = new Reflector.FieldCache(),
-			ax = new Reflector.FieldCache(),
-			ay = new Reflector.FieldCache(),
-			az = new Reflector.FieldCache(),
-			ba = new Reflector.FieldCache(),
-			bb = new Reflector.FieldCache(),
-			bc = new Reflector.FieldCache(),
-			bd = new Reflector.FieldCache(),
-			be = new Reflector.FieldCache(),
-			bf = new Reflector.FieldCache(),
-			bg = new Reflector.FieldCache(),
-			bh = new Reflector.FieldCache(),
-			bi = new Reflector.FieldCache(),
-			bj = new Reflector.FieldCache(),
-			bk = new Reflector.FieldCache(),
-			bl = new Reflector.FieldCache(),
-			bm = new Reflector.FieldCache(),
-			bn = new Reflector.FieldCache(),
-			bo = new Reflector.FieldCache(),
-			bp = new Reflector.FieldCache(),
-			bq = new Reflector.FieldCache(),
-			br = new Reflector.FieldCache(),
-			bs = new Reflector.FieldCache(),
-			bt = new Reflector.FieldCache(),
-			bu = new Reflector.FieldCache();
-
-	public Client(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public Client(final IClient wrapped) {
 		super(wrapped);
 	}
 
 	public NodeDeque getProjectiles() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new NodeDeque(wrapped.get().getProjectiles());
 		}
 
-		return new NodeDeque(reflector, reflector.access(this, bp));
+		return null;
 	}
 
 	public boolean isMembers() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().isMembers();
 		}
 
-		return reflector.accessBool(this, bo);
+		return false;
 	}
 
 	public int getCameraX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCameraX();
 		}
 
-		return reflector.accessInt(this, a);
+		return -1;
 	}
 
 	public int getCameraY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCameraY();
 		}
 
-		return reflector.accessInt(this, b);
+		return -1;
 	}
 
 	public int getCameraZ() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCameraZ();
 		}
 
-		return reflector.accessInt(this, c);
+		return -1;
 	}
 
 	public int getCameraYaw() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCameraYaw();
 		}
 
-		return reflector.accessInt(this, d);
+		return -1;
 	}
 
 	public int getCameraPitch() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCameraPitch();
 		}
 
-		return reflector.accessInt(this, e);
+		return -1;
 	}
 
 	public int getMinimapAngle() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMinimapAngle();
 		}
 
-		return reflector.accessInt(this, f);
+		return -1;
 	}
 
 	public Player getPlayer() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Player(wrapped.get().getPlayer());
 		}
 
-		return new Player(reflector, reflector.access(this, i));
+		return null;
 	}
 
 	public Player[] getPlayers() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final IPlayer[] players = wrapped.get().getPlayers();
 			final Player[] wrapped = players != null ? new Player[players.length] : null;
 			if (players != null) {
@@ -170,26 +95,19 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			return wrapped;
 		}
 
-		final Object[] arr = reflector.access(this, j, Object[].class);
-		final Player[] arr2 = arr != null ? new Player[arr.length] : null;
-		if (arr != null) {
-			for (int i = 0; i < arr.length; i++) {
-				arr2[i] = new Player(reflector, arr[i]);
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public int[] getPlayerIndices() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getPlayerIndices();
 		}
 
-		return reflector.accessInts(this, k);
+		return null;
 	}
 
 	public Npc[] getNpcs() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final INpc[] npcs = wrapped.get().getNpcs();
 			final Npc[] wrapped = npcs != null ? new Npc[npcs.length] : null;
 			if (npcs != null) {
@@ -200,186 +118,179 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			return wrapped;
 		}
 
-		final Object[] arr = reflector.access(this, l, Object[].class);
-		final Npc[] arr2 = arr != null ? new Npc[arr.length] : null;
-		if (arr != null) {
-			for (int i = 0; i < arr.length; i++) {
-				arr2[i] = new Npc(reflector, arr[i]);
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public int[] getNpcIndices() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getNpcIndices();
 		}
 
-		return reflector.accessInts(this, m);
+		return null;
 	}
 
 	public int getOffsetX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getOffsetX();
 		}
 
-		return reflector.accessInt(this, n);
+		return -1;
 	}
 
 	public int getOffsetY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getOffsetY();
 		}
 
-		return reflector.accessInt(this, o);
+		return -1;
 	}
 
 	public int getFloor() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getFloor();
 		}
 
-		return reflector.accessInt(this, p);
+		return -1;
 	}
 
 	public Landscape getLandscape() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Landscape(wrapped.get().getLandscape());
 		}
 
-		return new Landscape(reflector, reflector.access(this, q));
+		return null;
 	}
 
 	public byte[][][] getLandscapeMeta() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getLandscapeMeta();
 		}
 
-		return reflector.access(this, r, byte[][][].class);
+		return null;
 	}
 
 	public int[][][] getTileHeights() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTileHeights();
 		}
 
-		return reflector.access(this, s, int[][][].class);
+		return null;
 	}
 
 	public boolean isMenuOpen() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().isMenuOpen();
 		}
 
-		return reflector.accessBool(this, t);
+		return false;
 	}
 
 	public int getMenuX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuX();
 		}
 
-		return reflector.accessInt(this, u);
+		return -1;
 	}
 
 	public int getMenuY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuY();
 		}
 
-		return reflector.accessInt(this, v);
+		return -1;
 	}
 
 	public int getMenuWidth() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuWidth();
 		}
 
-		return reflector.accessInt(this, w);
+		return -1;
 	}
 
 	public int getMenuHeight() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuHeight();
 		}
 
-		return reflector.accessInt(this, x);
+		return -1;
 	}
 
 	public int getMenuCount() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuCount();
 		}
 
-		return reflector.accessInt(this, y);
+		return -1;
 	}
 
 	public String[] getMenuActions() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuActions();
 		}
 
-		return reflector.access(this, z, String[].class);
+		return null;
 	}
 
 	public String[] getMenuOptions() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMenuOptions();
 		}
 
-		return reflector.access(this, aa, String[].class);
+		return null;
 	}
 
 	public int[] getWidgetBoundsX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getWidgetBoundsX();
 		}
 
-		return reflector.accessInts(this, ab);
+		return null;
 	}
 
 	public int[] getWidgetBoundsY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getWidgetBoundsY();
 		}
 
-		return reflector.accessInts(this, ac);
+		return null;
 	}
 
 	public int[] getWidgetBoundsWidth() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getWidgetBoundsWidth();
 		}
 
-		return reflector.accessInts(this, ad);
+		return null;
 	}
 
 	public int[] getWidgetBoundsHeight() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getWidgetBoundsHeight();
 		}
 
-		return reflector.accessInts(this, ae);
+		return null;
 	}
 
 	public int getDestinationX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getDestinationX();
 		}
 
-		return reflector.accessInt(this, af);
+		return -1;
 	}
 
 	public int getDestinationY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getDestinationY();
 		}
 
-		return reflector.accessInt(this, ag);
+		return -1;
 	}
 
 	public Widget[][] getWidgets() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final IWidget[][] widgets = wrapped.get().getWidgets();
 			if (widgets == null) {
 				return null;
@@ -401,36 +312,19 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			return wrapped;
 		}
 
-		final Object[][] arr = reflector.access(this, ah, Object[][].class);
-		if (arr == null) {
-			return null;
-		}
-		final Widget[][] arr2 = new Widget[arr.length][];
-		for (int i = 0; i < arr.length; i++) {
-			final Object[] sub = arr[i];
-			if (sub == null) {
-				arr2[i] = null;
-				continue;
-			}
-			final Widget[] sub2 = new Widget[sub.length];
-			arr2[i] = sub2;
-			for (int i2 = 0; i2 < sub.length; i2++) {
-				sub2[i2] = new Widget(reflector, sub[i2]);
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public HashTable getWidgetTable() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new HashTable(wrapped.get().getWidgetTable());
 		}
 
-		return new HashTable(reflector, reflector.access(this, ai));
+		return null;
 	}
 
 	public NodeDeque[][][] getGroundItems() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final INodeDeque[][][] items = wrapped.get().getGroundItems();
 			if (items == null) {
 				return null;
@@ -462,37 +356,11 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			return wrapped;
 		}
 
-		final Object[][][] arr = reflector.access(this, aj, Object[][][].class);
-		if (arr == null) {
-			return null;
-		}
-		final NodeDeque[][][] arr2 = new NodeDeque[arr.length][][];
-		for (int i = 0; i < arr.length; i++) {
-			final Object[][] sub = arr[i];
-			if (sub == null) {
-				arr2[i] = null;
-				continue;
-			}
-			final NodeDeque[][] sub2 = new NodeDeque[sub.length][];
-			arr2[i] = sub2;
-			for (int i2 = 0; i2 < sub.length; i2++) {
-				final Object[] sub2_1 = sub[i2];
-				if (sub2_1 == null) {
-					sub2[i] = null;
-					continue;
-				}
-				final NodeDeque[] sub2_2 = new NodeDeque[sub2_1.length];
-				sub2[i2] = sub2_2;
-				for (int i3 = 0; i3 < sub2_1.length; i3++) {
-					sub2_2[i3] = new NodeDeque(reflector, sub2_1[i3]);
-				}
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public CollisionMap[] getCollisionMaps() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final ICollisionMap[] maps = wrapped.get().getCollisionMaps();
 			final CollisionMap[] wrapped = maps != null ? new CollisionMap[maps.length] : null;
 			if (maps != null) {
@@ -503,158 +371,151 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			return wrapped;
 		}
 
-		final Object[] arr = reflector.access(this, ak, Object[].class);
-		final CollisionMap[] arr2 = arr != null ? new CollisionMap[arr.length] : null;
-		if (arr != null) {
-			for (int i = 0; i < arr.length; i++) {
-				arr2[i] = new CollisionMap(reflector, arr[i]);
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public int[] getVarpbits() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getVarpbits();
 		}
 
-		return reflector.accessInts(this, al);
+		return null;
 	}
 
 	public int getClientState() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getClientState();
 		}
 
-		return reflector.accessInt(this, am);
+		return -1;
 	}
 
 	public int getCrosshairIndex() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCrosshairIndex();
 		}
 
-		return reflector.accessInt(this, an);
+		return -1;
 	}
 
 	public Cache getVarbitCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getVarbitCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, ao));
+		return null;
 	}
 
 	public Cache getNpcConfigCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getNpcConfigCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, ap));
+		return null;
 	}
 
 	public Cache getObjectConfigCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getObjectConfigCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, aq));
+		return null;
 	}
 
 	public Cache getItemConfigCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getItemConfigCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, ar));
+		return null;
 	}
 
 	public int[] getSkillLevels1() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSkillLevels1();
 		}
 
-		return reflector.accessInts(this, as);
+		return null;
 	}
 
 	public int[] getSkillLevels2() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSkillLevels2();
 		}
 
-		return reflector.accessInts(this, at);
+		return null;
 	}
 
 	public int[] getSkillExps() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSkillExps();
 		}
 
-		return reflector.accessInts(this, au);
+		return null;
 	}
 
 	public int getCycle() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCycle();
 		}
 
-		return reflector.accessInt(this, av);
+		return -1;
 	}
 
 	public int getHintArrowNpcUid() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHintArrowNpcUid();
 		}
 
-		return reflector.accessInt(this, aw);
+		return -1;
 	}
 
 	public int getHintArrowPlayerUid() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHintArrowPlayerUid();
 		}
 
-		return reflector.accessInt(this, ax);
+		return -1;
 	}
 
 	public int getHintArrowType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHintArrowType();
 		}
 
-		return reflector.accessInt(this, ay);
+		return -1;
 	}
 
 	public int getHintArrowX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHintArrowX();
 		}
 
-		return reflector.accessInt(this, az);
+		return -1;
 	}
 
 	public int getHintArrowY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHintArrowY();
 		}
 
-		return reflector.accessInt(this, ba);
+		return -1;
 	}
 
 	public int getSelectionType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSelectionType();
 		}
 
-		return reflector.accessInt(this, bb);
+		return -1;
 	}
 
 	public int getSelectionIndex() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSelectionIndex();
 		}
 
-		return reflector.accessInt(this, bc);
+		return -1;
 	}
 
 	public String getUsername() {
@@ -663,11 +524,11 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			s.checkPermission(new PrivateCredentialPermission("rt4 u \"*\"", "read"));
 		}
 
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getUsername();
 		}
 
-		return reflector.accessString(this, bd);
+		return null;
 	}
 
 	public String getPassword() {
@@ -676,123 +537,123 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 			s.checkPermission(new PrivateCredentialPermission("rt4 p \"*\"", "read"));
 		}
 
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getPassword();
 		}
 
-		return reflector.accessString(this, be);
+		return null;
 	}
 
 	public int getPlayerIndex() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getPlayerIndex();
 		}
 
-		return reflector.accessInt(this, bf);
+		return -1;
 	}
 
 	public int getRunPercentage() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getRunPercentage();
 		}
 
-		return reflector.accessInt(this, bg);
+		return -1;
 	}
 
 	public EntryList getLoggerEntries() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new EntryList(wrapped.get().getLoggerEntries());
 		}
 
-		return new EntryList(reflector, reflector.access(this, bh));
+		return null;
 	}
 
 	public int getLoginState() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getLoginState();
 		}
 
-		return reflector.accessInt(this, bi);
+		return -1;
 	}
 
 	public int getLoginField() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getLoginField();
 		}
 
-		return reflector.accessInt(this, bj);
+		return -1;
 	}
 
 	public boolean isWorldSelectionUp() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			//TODO support this
 			return false;
 		}
 
-		return reflector.accessBool(this, bk);
+		return false;
 	}
 
 	public int getTileSize() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTileSize();
 		}
 
-		return reflector.accessInt(this, bl);
+		return -1;
 	}
 
 	public int getNpcCount() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getNpcCount();
 		}
 
-		return reflector.accessInt(this, bm);
+		return -1;
 	}
 
 	public int getPlayerCount() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getPlayerCount();
 		}
 
-		return reflector.accessInt(this, bn);
+		return -1;
 	}
 
 	public Cache getPlayerModelCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getPlayerModelCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, bq));
+		return null;
 	}
 
 	public Cache getObjectModelCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getObjectModelCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, br));
+		return null;
 	}
 
 	public Cache getNpcModelCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getNpcModelCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, bs));
+		return null;
 	}
 
 	public Cache getWidgetModelCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getWidgetModelCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, bt));
+		return null;
 	}
 
 	public Cache getGroundItemModelCache() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new Cache(wrapped.get().getGroundItemModelCache());
 		}
 
-		return new Cache(reflector, reflector.access(this, bu));
+		return null;
 	}
 }

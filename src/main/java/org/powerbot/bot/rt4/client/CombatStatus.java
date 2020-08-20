@@ -4,30 +4,24 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.ICombatStatus;
 
 public class CombatStatus extends Proxy<ICombatStatus> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-												b = new Reflector.FieldCache();
-
-	public CombatStatus(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public CombatStatus(final ICombatStatus wrapped) {
 		super(wrapped);
 	}
 
 	public LinkedList getList() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new LinkedList(wrapped.get().getList());
 		}
 
-		return new LinkedList(reflector, reflector.access(this, a));
+		return null;
 	}
 
 	public BarComponent getBarComponent() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new BarComponent(wrapped.get().getBarComponent());
 		}
 
-		return new BarComponent(reflector, reflector.access(this, b));
+		return null;
 	}
 }

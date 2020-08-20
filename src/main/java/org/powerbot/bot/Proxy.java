@@ -1,35 +1,40 @@
 package org.powerbot.bot;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Proxy<T> {
-	public final Reflector reflector;
-	public final WeakReference<Object> obj;
-
 	public final WeakReference<T> wrapped;
 
-	public Proxy(final Reflector reflector, final Object obj) {
-		this.reflector = reflector;
-		if (obj instanceof Proxy) {
-			this.obj = ((Proxy) obj).obj;
-		} else {
-			this.obj = new WeakReference<>(obj);
-		}
-		this.wrapped = null;
-	}
+	private static final Map<Class<? extends Proxy>, Class> typeCache = new HashMap<>();
 
 	public Proxy(final T wrapped) {
 		this.wrapped = new WeakReference<>(wrapped);
-		this.reflector = null;
-		this.obj = null;
+	}
+
+	private static Class<?> getTypeClass(final Class<? extends Proxy> c) {
+		return Arrays.stream(c.getConstructors()).
+			filter(constructor -> constructor.getParameterCount() == 1
+				&& constructor.getParameterTypes()[0].getName().startsWith("org.powerbot.bot.rt4.client.internal"))
+			.findFirst()
+			.map(constructor -> constructor.getParameterTypes()[0].getClass())
+			.orElse(null);
 	}
 
 	public boolean isTypeOf(final Class<? extends Proxy> c) {
-		if (wrapped != null) {
-			return true;
+		if (!typeCache.containsKey(c)) {
+			typeCache.put(c, getTypeClass(c));
+		}
+		if (!typeCache.containsKey(getClass())) {
+			typeCache.put(getClass(), getTypeClass(getClass()));
 		}
 
-		return reflector.isTypeOf(obj.get(), c);
+		final Class<T> thisClass = typeCache.get(getClass());
+		final Class<?> otherClass = typeCache.get(c);
+
+		return thisClass != null && otherClass != null && thisClass.isAssignableFrom(otherClass);
 	}
 
 	public boolean isNull() {
@@ -38,11 +43,7 @@ public class Proxy<T> {
 
 	@Override
 	public int hashCode() {
-		if (wrapped != null) {
-			return System.identityHashCode(wrapped.get());
-		}
-
-		return System.identityHashCode(obj.get());
+		return System.identityHashCode(wrapped.get());
 	}
 
 	@Override
@@ -50,19 +51,15 @@ public class Proxy<T> {
 		if (!(o instanceof Proxy)) {
 			return false;
 		}
-		if (this.wrapped != null) {
+		if (!isNull() && !((Proxy) o).isNull()) {
 			final T unwrapped = this.wrapped.get();
-			return unwrapped != null && unwrapped == ((Proxy) o).wrapped.get();
+			return unwrapped == ((Proxy) o).wrapped.get();
 		}
-		final Object obj = this.obj.get();
-		return obj != null && obj == ((Proxy) o).obj.get();
+
+		return this == o;
 	}
 
 	public Object get() {
-		if (wrapped != null) {
-			return wrapped.get();
-		}
-
-		return obj != null ? obj.get() : null;
+		return wrapped != null ? wrapped.get() : null;
 	}
 }

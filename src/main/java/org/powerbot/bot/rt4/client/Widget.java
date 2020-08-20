@@ -4,112 +4,77 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IWidget;
 
 public class Widget extends Proxy<IWidget> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache(),
-			d = new Reflector.FieldCache(),
-			e = new Reflector.FieldCache(),
-			f = new Reflector.FieldCache(),
-			g = new Reflector.FieldCache(),
-			h = new Reflector.FieldCache(),
-			i = new Reflector.FieldCache(),
-			j = new Reflector.FieldCache(),
-			k = new Reflector.FieldCache(),
-			l = new Reflector.FieldCache(),
-			m = new Reflector.FieldCache(),
-			n = new Reflector.FieldCache(),
-			o = new Reflector.FieldCache(),
-			p = new Reflector.FieldCache(),
-			q = new Reflector.FieldCache(),
-			r = new Reflector.FieldCache(),
-			s = new Reflector.FieldCache(),
-			t = new Reflector.FieldCache(),
-			u = new Reflector.FieldCache(),
-			v = new Reflector.FieldCache(),
-			w = new Reflector.FieldCache(),
-			x = new Reflector.FieldCache(),
-			y = new Reflector.FieldCache(),
-			z = new Reflector.FieldCache(),
-			aa = new Reflector.FieldCache(),
-			ab = new Reflector.FieldCache(),
-			ac = new Reflector.FieldCache(),
-			ad = new Reflector.FieldCache(),
-			ae = new Reflector.FieldCache();
-
-	public Widget(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public Widget(final IWidget wrapped) {
 		super(wrapped);
 	}
 
 	public int getX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getX();
 		}
 
-		return reflector.accessInt(this, a);
+		return -1;
 	}
 
 	public int getY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getY();
 		}
 
-		return reflector.accessInt(this, b);
+		return -1;
 	}
 
 	public int getWidth() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getWidth();
 		}
 
-		return reflector.accessInt(this, c);
+		return -1;
 	}
 
 	public int getHeight() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getHeight();
 		}
 
-		return reflector.accessInt(this, d);
+		return -1;
 	}
 
 	public int getBorderThickness() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getBorderThickness();
 		}
 
-		return reflector.accessInt(this, e);
+		return -1;
 	}
 
 	public int getType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getType();
 		}
 
-		return reflector.accessInt(this, f);
+		return -1;
 	}
 
 	public int getId() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getId();
 		}
 
-		return reflector.accessInt(this, g);
+		return -1;
 	}
 
 	public int getParentId() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getParentId();
 		}
 
-		return reflector.accessInt(this, h);
+		return -1;
 	}
 
 	public Widget[] getChildren() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			final IWidget[] widgets = wrapped.get().getChildren();
 			final Widget[] wrapped = widgets != null ? new Widget[widgets.length] : null;
 			if (widgets != null) {
@@ -121,189 +86,182 @@ public class Widget extends Proxy<IWidget> {
 			return wrapped;
 		}
 
-		final Object[] arr = reflector.access(this, i, Object[].class);
-		final Widget[] arr2 = arr != null ? new Widget[arr.length] : null;
-		if (arr != null) {
-			for (int i = 0; i < arr.length; i++) {
-				arr2[i] = new Widget(reflector, arr[i]);
-			}
-		}
-		return arr2;
+		return null;
 	}
 
 	public int getContentType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getContentType();
 		}
 
-		return reflector.accessInt(this, j);
+		return -1;
 	}
 
 	public int getModelId() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getModelId();
 		}
 
-		return reflector.accessInt(this, k);
+		return -1;
 	}
 
 	public int getModelType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getModelType();
 		}
 
-		return reflector.accessInt(this, l);
+		return -1;
 	}
 
 	public int getModelZoom() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getModelZoom();
 		}
 
-		return reflector.accessInt(this, m);
+		return -1;
 	}
 
 	public String[] getActions() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getActions();
 		}
 
-		return reflector.access(this, n, String[].class);
+		return null;
 	}
 
 	public int getAngleX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getAngleX();
 		}
 
-		return reflector.accessInt(this, o);
+		return -1;
 	}
 
 	public int getAngleY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getAngleY();
 		}
 
-		return reflector.accessInt(this, p);
+		return -1;
 	}
 
 	public int getAngleZ() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getAngleZ();
 		}
 
-		return reflector.accessInt(this, q);
+		return -1;
 	}
 
 	public String getText() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getText();
 		}
 
-		return reflector.accessString(this, r);
+		return null;
 	}
 
 	public int getTextColor() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTextColor();
 		}
 
-		return reflector.accessInt(this, s);
+		return -1;
 	}
 
 	public int getScrollX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getScrollX();
 		}
 
-		return reflector.accessInt(this, t);
+		return -1;
 	}
 
 	public int getScrollY() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getScrollY();
 		}
 
-		return reflector.accessInt(this, u);
+		return -1;
 	}
 
 	public int getScrollWidth() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getScrollWidth();
 		}
 
-		return reflector.accessInt(this, v);
+		return -1;
 	}
 
 	public int getScrollHeight() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getScrollHeight();
 		}
 
-		return reflector.accessInt(this, w);
+		return -1;
 	}
 
 	public int getBoundsIndex() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getBoundsIndex();
 		}
 
-		return reflector.accessInt(this, x);
+		return -1;
 	}
 
 	public int getTextureId() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTextureId();
 		}
 
-		return reflector.accessInt(this, y);
+		return -1;
 	}
 
 	public int[] getItemIds() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getItemIds();
 		}
 
-		return reflector.accessInts(this, z);
+		return null;
 	}
 
 	public int[] getItemStackSizes() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getItemStackSizes();
 		}
 
-		return reflector.accessInts(this, aa);
+		return null;
 	}
 
 	public boolean isHidden() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().isHidden();
 		}
 
-		return reflector.accessBool(this, ab);
+		return false;
 	}
 
 	public String getTooltip() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTooltip();
 		}
 
-		return reflector.accessString(this, ac);
+		return null;
 	}
 
 	public int getItemId() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getItemId();
 		}
 
-		return reflector.accessInt(this, ad);
+		return -1;
 	}
 
 	public int getItemStackSize() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getItemStackSize();
 		}
 
-		return reflector.accessInt(this, ae);
+		return -1;
 	}
 }

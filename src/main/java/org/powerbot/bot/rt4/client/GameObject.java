@@ -4,19 +4,6 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IGameObject;
 
 public class GameObject extends BasicObject<IGameObject> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache(),
-			d = new Reflector.FieldCache(),
-			e = new Reflector.FieldCache(),
-			f = new Reflector.FieldCache(),
-			g = new Reflector.FieldCache(),
-		h = new Reflector.FieldCache(),
-	i = new Reflector.FieldCache();
-
-	public GameObject(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public GameObject(final IGameObject wrapped) {
 		super(wrapped);
@@ -24,73 +11,73 @@ public class GameObject extends BasicObject<IGameObject> {
 
 	@Override
 	public long getUid() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getUid();
 		}
 
-		return reflector.accessLong(this, a);
+		return -1L;
 	}
 
 	@Override
 	public int getMeta() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMeta();
 		}
 
-		return reflector.accessInt(this, b);
+		return -1;
 	}
 
 	@Override
 	public int getX() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getX();
 		}
 
-		return reflector.accessInt(this, c);
+		return -1;
 	}
 
 	@Override
 	public int getZ() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getZ();
 		}
 
-		return reflector.accessInt(this, d);
+		return -1;
 	}
 
 	@Override
 	public int getX1() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getX1();
 		}
 
-		return reflector.accessInt(this, e);
+		return -1;
 	}
 
 	@Override
 	public int getY1() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getY1();
 		}
 
-		return reflector.accessInt(this, f);
+		return -1;
 	}
 
 	@Override
 	public int getX2() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getX2();
 		}
 
-		return reflector.accessInt(this, g);
+		return -1;
 	}
 
 	@Override
 	public int getY2() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getY2();
 		}
 
-		return reflector.accessInt(this, h);
+		return -1;
 	}
 }

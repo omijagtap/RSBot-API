@@ -4,48 +4,40 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IPlayer;
 
 public class Player extends Actor<IPlayer> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache(),
-			d = new Reflector.FieldCache();
-
-	public Player(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public Player(final IPlayer wrapped) {
 		super(wrapped);
 	}
 
 	public int getCombatLevel() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getCombatLevel();
 		}
 
-		return reflector.accessInt(this, a);
+		return -1;
 	}
 
 	public String getName() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new StringRecord(wrapped.get().getName()).getValue();
 		}
 
-		return new StringRecord(reflector, reflector.access(this, b)).getValue();
+		return null;
 	}
 
 	public int getTeam() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getTeam();
 		}
 
-		return reflector.accessInt(this, c);
+		return -1;
 	}
 
 	public PlayerComposite getComposite() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return new PlayerComposite(wrapped.get().getComposite());
 		}
 
-		return new PlayerComposite(reflector, reflector.access(this, d));
+		return null;
 	}
 }

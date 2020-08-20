@@ -62,11 +62,7 @@ public class Npc extends Actor implements Identifiable, Actionable {
 		}
 		final NpcConfig c;
 		if (npc == null) {
-			if (ctx.bot().isInjection()) {
-				c = new NpcConfig(null);
-			} else {
-				c = new NpcConfig(client.reflector, null);
-			}
+			c = new NpcConfig(null);
 		} else {
 			c = npc.getConfig();
 		}

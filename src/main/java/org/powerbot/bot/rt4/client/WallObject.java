@@ -4,12 +4,6 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IWallObject;
 
 public class WallObject extends BasicObject<IWallObject> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache();
-
-	public WallObject(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public WallObject(final IWallObject wrapped) {
 		super(wrapped);
@@ -17,20 +11,20 @@ public class WallObject extends BasicObject<IWallObject> {
 
 	@Override
 	public long getUid() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getUid();
 		}
 
-		return reflector.accessLong(this, a);
+		return -1L;
 	}
 
 	@Override
 	public int getMeta() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMeta();
 		}
 
-		return reflector.accessInt(this, b);
+		return -1;
 	}
 
 

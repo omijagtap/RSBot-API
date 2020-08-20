@@ -4,12 +4,6 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IBoundaryObject;
 
 public class BoundaryObject extends BasicObject<IBoundaryObject> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache();
-
-	public BoundaryObject(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public BoundaryObject(final IBoundaryObject wrapped) {
 		super(wrapped);
@@ -17,20 +11,20 @@ public class BoundaryObject extends BasicObject<IBoundaryObject> {
 
 	@Override
 	public long getUid() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getUid();
 		}
 
-		return reflector.accessLong(this, a);
+		return -1L;
 	}
 
 	@Override
 	public int getMeta() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMeta();
 		}
 
-		return reflector.accessInt(this, b);
+		return -1;
 	}
 
 	@Override

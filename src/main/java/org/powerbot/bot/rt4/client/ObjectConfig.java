@@ -1,35 +1,51 @@
 package org.powerbot.bot.rt4.client;
 
 import org.powerbot.bot.*;
+import org.powerbot.bot.rt4.client.internal.IObjectConfig;
 
-public class ObjectConfig extends Proxy {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache(),
-			d = new Reflector.FieldCache(),
-			e = new Reflector.FieldCache();
+public class ObjectConfig extends Proxy<IObjectConfig> {
 
-	public ObjectConfig(final Reflector engine, final Object parent) {
-		super(engine, parent);
+	public ObjectConfig(IObjectConfig wrapped) {
+		super(wrapped);
 	}
 
 	public String getName() {
-		return reflector.accessString(this, a);
+		if (!isNull()) {
+			return wrapped.get().getName();
+		}
+
+		return null;
 	}
 
 	public String[] getActions() {
-		return reflector.access(this, b, String[].class);
+		if (!isNull()) {
+			return wrapped.get().getActions();
+		}
+
+		return null;
 	}
 
 	public int[] getConfigs() {
-		return reflector.accessInts(this, c);
+		if (!isNull()) {
+			return wrapped.get().getConfigs();
+		}
+
+		return null;
 	}
 
 	public int getVarpbitIndex() {
-		return reflector.accessInt(this, d);
+		if (!isNull()) {
+			return wrapped.get().getVarpbitIndex();
+		}
+
+		return -1;
 	}
 
 	public int getVarbit() {
-		return reflector.accessInt(this, e);
+		if (!isNull()) {
+			return wrapped.get().getVarbit();
+		}
+
+		return -1;
 	}
 }

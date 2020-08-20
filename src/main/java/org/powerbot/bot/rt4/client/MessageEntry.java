@@ -5,39 +5,32 @@ import org.powerbot.bot.rt4.client.internal.IEntry;
 import org.powerbot.bot.rt4.client.internal.IMessageEntry;
 
 public class MessageEntry extends Entry<IMessageEntry> {
-	private static final Reflector.FieldCache a = new Reflector.FieldCache(),
-			b = new Reflector.FieldCache(),
-			c = new Reflector.FieldCache();
-
-	public MessageEntry(final Reflector engine, final Object parent) {
-		super(engine, parent);
-	}
 
 	public MessageEntry(final IMessageEntry wrapped) {
 		super(wrapped);
 	}
 
 	public String getSender() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getSender();
 		}
 
-		return reflector.accessString(this, a);
+		return null;
 	}
 
 	public String getMessage() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getMessage();
 		}
 
-		return reflector.accessString(this, b);
+		return null;
 	}
 
 	public int getType() {
-		if (wrapped != null) {
+		if (!isNull()) {
 			return wrapped.get().getType();
 		}
 
-		return reflector.accessInt(this, c);
+		return -1;
 	}
 }

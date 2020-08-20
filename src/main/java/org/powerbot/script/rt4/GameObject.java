@@ -86,12 +86,7 @@ public class GameObject extends Interactive implements Nameable, InteractiveEnti
 
 		if (c.stageOperationId != -1) {
 			final Cache cache = client.getVarbitCache();
-			final Varbit varBit;
-			if (ctx.bot().isInjection()) {
-				varBit = new Varbit(HashTable.lookup(cache.getTable(), c.stageOperationId, Varbit.class).wrapped.get());
-			} else {
-				varBit = new Varbit(object.object.reflector, HashTable.lookup(cache.getTable(), c.stageOperationId, Varbit.class));
-			}
+			final Varbit varBit = new Varbit(HashTable.lookup(cache.getTable(), c.stageOperationId, Varbit.class).wrapped.get());
 
 			if (!varBit.isNull()) {
 				final int mask = lookup[varBit.getEndBit() - varBit.getStartBit()];

@@ -334,34 +334,22 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		final Node current;
 		current = tail.getNext();
 		if (current.getNext().getNodeId() != tail.getNodeId()) {
-			if (ctx.bot().isInjection()) {
-				if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
-					secondary = new CombatStatus((ICombatStatus) current.get());
-				} else {
-					secondary = null;
-				}
+			if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
+				secondary = new CombatStatus((ICombatStatus) current.get());
 			} else {
-				secondary = new CombatStatus(current.reflector, current);
+				secondary = null;
 			}
-			if (ctx.bot().isInjection()) {
-				if (ICombatStatus.class.isAssignableFrom(current.getNext().get().getClass())) {
-					health = new CombatStatus((ICombatStatus) current.getNext().get());
-				} else {
-					health = null;
-				}
+			if (ICombatStatus.class.isAssignableFrom(current.getNext().get().getClass())) {
+				health = new CombatStatus((ICombatStatus) current.getNext().get());
 			} else {
-				health = new CombatStatus(current.getNext().reflector, current.getNext());
+				health = null;
 			}
 		} else {
 			secondary = null;
-			if (ctx.bot().isInjection()) {
-				if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
-					health = new CombatStatus((ICombatStatus) current.get());
-				} else {
-					health = null;
-				}
+			if (ICombatStatus.class.isAssignableFrom(current.get().getClass())) {
+				health = new CombatStatus((ICombatStatus) current.get());
 			} else {
-				health = new CombatStatus(current.reflector, current);
+				health = null;
 			}
 		}
 		return new CombatStatus[]{secondary, health};
@@ -379,12 +367,7 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 				continue;
 			}
 
-			final CombatStatus status;
-			if (ctx.bot().isInjection()) {
-				status = new CombatStatus(node.wrapped.get());
-			} else {
-				status = new CombatStatus(node.reflector, node);
-			}
+			final CombatStatus status = new CombatStatus(node.wrapped.get());
 
 			return status.getBarComponent();
 		}
@@ -420,11 +403,7 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 				data[i] = null;
 				continue;
 			}
-			if (ctx.bot().isInjection()) {
-				data[i] = new CombatStatusData((ICombatStatusData) node.get());
-			} else {
-				data[i] = new CombatStatusData(node.reflector, node);
-			}
+			data[i] = new CombatStatusData((ICombatStatusData) node.get());
 		}
 		return data;
 	}
