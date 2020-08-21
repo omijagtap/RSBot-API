@@ -1,9 +1,9 @@
-package org.powerbot.script.rt4.webwalk.teleports;
+package org.powerbot.script.rt4.webwalk.teleport;
 
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.Magic;
 
-public enum Teleport {
+public enum TeleportType {
 	VARROCK_TAB(new Tile(3212, 3424, 0), new TabletTeleportStrategy("Varrock")),
 	FALADOR_TAB(new Tile(2966, 3379, 0), new TabletTeleportStrategy("Falador")),
 	LUMBRIDGE_TAB(new Tile(3225, 3219, 0), new TabletTeleportStrategy("Lumbridge")),
@@ -31,7 +31,7 @@ public enum Teleport {
 	private final Tile destination;
 	private final TeleportStrategy strategy;
 
-	Teleport(final Tile destination, final TeleportStrategy strategy) {
+	TeleportType(final Tile destination, final TeleportStrategy strategy) {
 		this.destination = destination;
 		this.strategy = strategy;
 	}

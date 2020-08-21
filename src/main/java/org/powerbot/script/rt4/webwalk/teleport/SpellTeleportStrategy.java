@@ -1,4 +1,4 @@
-package org.powerbot.script.rt4.webwalk.teleports;
+package org.powerbot.script.rt4.webwalk.teleport;
 
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;

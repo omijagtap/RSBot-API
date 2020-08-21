@@ -1,4 +1,4 @@
-package org.powerbot.script.rt4.webwalk.teleports;
+package org.powerbot.script.rt4.webwalk.teleport;
 
 public enum RuneType {
 	AIR("Air", "Smoke", "Mist", "Dust"),
