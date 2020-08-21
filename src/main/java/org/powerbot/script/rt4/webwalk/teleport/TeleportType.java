@@ -25,7 +25,7 @@ public enum TeleportType {
 	ARDOUGNE_SPELL(ARDOUGNE_TAB.getDestination(), new SpellTeleportStrategy(Magic.Spell.ARDOUGNE_TELEPORT, new RuneType[]{ RuneType.LAW, RuneType.WATER }, new int[]{ 2, 2 })),
 
 	RING_OF_DUELLING_CASTLE_WARS(new Tile(2440, 3090, 0), new ItemTeleportStrategy("Ring of Duelling", "([1-8])", "Castle Wars")),
-	RING_OF_DUELLING_CLAN_WARS(new Tile(3388, 3161, 0), new ItemTeleportStrategy("Ring of Duelling", "([1-8])", "Clan Wars")),
+	RING_OF_DUELLING_FEROX_ENCLAVE(new Tile(3151, 3634, 0), new ItemTeleportStrategy("Ring of Duelling", "([1-8])", "Ferox Enclave")),
 	RING_OF_DUELLING_DUEL_ARENA(new Tile(3313, 3233, 0), new ItemTeleportStrategy("Ring of Duelling", "([1-8])", "Duel Arena"));
 
 	private final Tile destination;
