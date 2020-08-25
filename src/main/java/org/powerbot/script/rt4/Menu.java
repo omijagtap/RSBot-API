@@ -5,8 +5,11 @@ import org.powerbot.script.*;
 
 import java.awt.Component;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /**
  * Menu
@@ -19,17 +22,10 @@ import java.util.concurrent.atomic.AtomicReference;
  *      <li><b>Drop</b> Coins</li>
  *  </ul>
  */
-public class Menu extends ClientAccessor implements Stoppable {
-	private final AtomicBoolean registered;
-	private final AtomicReference<String[]> actions, options;
-	private final AtomicBoolean stopping = new AtomicBoolean(false);
+public class Menu extends ClientAccessor {
 
 	public Menu(final ClientContext ctx) {
 		super(ctx);
-		registered = new AtomicBoolean(false);
-		final String[] e = new String[0];
-		actions = new AtomicReference<>(e);
-		options = new AtomicReference<>(e);
 	}
 
 	public static Filter<? super MenuCommand> filter(final String action) {
@@ -73,19 +69,30 @@ public class Menu extends ClientAccessor implements Stoppable {
 	 * @return The index of the menu command, or {@code -1} if it was not found.
 	 */
 	public int indexOf(final Filter<? super MenuCommand> filter) {
-		final String[] actions = this.actions.get(), options = this.options.get();
-		final int len;
-		if ((len = actions.length) != options.length) {
-			return -1;
-		}
-		for (int i = 0; i < len; i++) {
-			if (filter.accept(new MenuCommand(actions[i], options[i]))) {
+		final java.util.List<String> actions = getMenuActions(), options = getMenuOptions();
+		for (int i = 0; i < ctx.client().getMenuCount(); i++) {
+			if (filter.accept(new MenuCommand(actions.size() > i ? actions.get(i) : null, options.size() > i ? options.get(i) : null))) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
+	public java.util.List<String> getMenuActions() {
+		final String[] actions = ctx.client().getMenuActions();
+		if (actions != null) {
+			return Arrays.stream(actions).map(StringUtils::stripHtml).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
+	}
+
+	public java.util.List<String> getMenuOptions() {
+		final String[] options = ctx.client().getMenuOptions();
+		if (options != null) {
+			return Arrays.stream(options).map(StringUtils::stripHtml).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
+	}
 	/**
 	 * Checks if the menu contains any {@link MenuCommand} matching the filter.
 	 *
@@ -210,11 +217,10 @@ public class Menu extends ClientAccessor implements Stoppable {
 	 *
 	 * @return the array of menu items
 	 */
-	public String[] items() {
+	public String[]  items() {
 		final MenuCommand[] m = commands();
-		final int len = m.length;
-		final String[] arr = new String[len];
-		for (int i = 0; i < len; i++) {
+		final String[] arr = new String[ctx.client().getMenuCount()];
+		for (int i = 0; i < ctx.client().getMenuCount(); i++) {
 			arr[i] = m[i].action + " " + m[i].option;
 			arr[i] = arr[i].trim();
 		}
@@ -227,76 +233,12 @@ public class Menu extends ClientAccessor implements Stoppable {
 	 * @return A {@link MenuCommand} array.
 	 */
 	public MenuCommand[] commands() {
-		final String[] actions = this.actions.get(), options = this.options.get();
-		final int len;
-		if ((len = actions.length) != options.length) {
-			return new MenuCommand[0];
-		}
-		final MenuCommand[] arr = new MenuCommand[len];
-		for (int i = 0; i < len; i++) {
-			arr[i] = new MenuCommand(actions[i], options[i]);
+		final java.util.List<String> actions = getMenuActions(), options = getMenuOptions();
+		final MenuCommand[] arr = new MenuCommand[ctx.client().getMenuCount()];
+		for (int i = 0; i < ctx.client().getMenuCount(); i++) {
+			arr[i] = new MenuCommand(actions.size() > i ? actions.get(i) : null, options.size() > i ? options.get(i) : null);
 		}
 		return arr;
-	}
-
-	public void register() {
-		if (!registered.compareAndSet(false, true)) {
-			return;
-		}
-		final Thread t = new Thread(() -> {
-			String lastOption = null;
-			while (!Thread.interrupted() && !isStopping()) {
-				try {
-					Thread.sleep(40);
-				} catch (final InterruptedException ignored) {
-					break;
-				}
-
-				final Client client = ctx.client();
-				if (client == null) {
-					continue;
-				}
-
-				final String[] actions = client.getMenuActions(), options = client.getMenuOptions();
-				if (actions == null || options == null) {
-					Menu.this.actions.set(new String[0]);
-					Menu.this.options.set(new String[0]);
-					continue;
-				}
-				final int count = client.getMenuCount() / 15;
-				final String[] actions2 = new String[count], options2 = new String[count];
-				int d = count - 1;
-				for (int i = 0; i < Math.min(count, Math.min(actions.length, options.length)); ++i) {
-					actions2[d] = StringUtils.stripHtml(actions[i]);
-					options2[d] = StringUtils.stripHtml(options[i]);
-					--d;
-				}
-
-				if(actions2.length > 0) {
-					if (actions2[0] != null && lastOption != null && !java.util.Objects.equals(actions2[0], lastOption)) {
-						lastOption = null;
-						continue;
-					}
-					lastOption = actions2[0];
-				}
-
-				Menu.this.actions.set(actions2);
-				Menu.this.options.set(options2);
-
-			}
-		});
-		t.setDaemon(true);
-		t.start();
-	}
-
-	@Override
-	public void stop() {
-		stopping.set(true);
-	}
-
-	@Override
-	public boolean isStopping() {
-		return stopping.get();
 	}
 
 	@Deprecated

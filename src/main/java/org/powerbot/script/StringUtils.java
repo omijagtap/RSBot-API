@@ -16,7 +16,7 @@ public class StringUtils {
 	 * @return the modified {@link java.lang.String} with tags stripped out
 	 */
 	public static String stripHtml(final String s) {
-		return s.replaceAll("\\<.*?\\>", "");
+		return s!= null ? s.replaceAll("\\<.*?\\>", "") : null;
 	}
 
 	/**
