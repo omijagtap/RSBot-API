@@ -20,6 +20,11 @@ public class TextPaintEvent extends AbstractEvent {
 		super(TEXT_PAINT_EVENT);
 	}
 
+	public TextPaintEvent(final Graphics graphics) {
+		super(TEXT_PAINT_EVENT);
+		this.graphics = graphics;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

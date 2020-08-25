@@ -21,6 +21,11 @@ public class PaintEvent extends AbstractEvent {
 		super(PAINT_EVENT);
 	}
 
+	public PaintEvent(final Graphics graphics) {
+		super(PAINT_EVENT);
+		this.graphics = graphics;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

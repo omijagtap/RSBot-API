@@ -4,6 +4,7 @@ import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.*;
 
 import javax.security.auth.PrivateCredentialPermission;
+import java.awt.*;
 
 public class Client extends Proxy<IClient> implements org.powerbot.script.Client {
 
@@ -652,6 +653,14 @@ public class Client extends Proxy<IClient> implements org.powerbot.script.Client
 	public Cache getGroundItemModelCache() {
 		if (!isNull()) {
 			return new Cache(wrapped.get().getGroundItemModelCache());
+		}
+
+		return null;
+	}
+
+	public Canvas getCanvas() {
+		if (!isNull()) {
+			return wrapped.get().getCanvas();
 		}
 
 		return null;

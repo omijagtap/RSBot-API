@@ -40,34 +40,6 @@ public class Chat extends TextQuery<ChatOption> {
 		return options;
 	}
 
-	public void register() {
-		if (!registered.compareAndSet(false, true)) {
-			return;
-		}
-		final EventDispatcher e = ctx.bot().getDispatcher();
-		e.add(new PaintListener() {
-			private final AtomicReference<Entry> previous = new AtomicReference<>(null);
-
-			@Override
-			public void repaint(final Graphics graphics) {
-				final Client client = ctx.client();
-				if (client == null) {
-					return;
-				}
-				final EntryList q = client.getLoggerEntries();
-				final Entry s = q.getSentinel();
-				Entry c = s.getNext();
-				final Entry f = c;
-				while (!s.equals(c) && !c.isNull() && !c.equals(previous.get())) {
-					final MessageEntry m = new MessageEntry((IMessageEntry) c.get());
-					e.dispatch(new MessageEvent(m));
-					c = c.getNext();
-				}
-				previous.set(f);
-			}
-		});
-	}
-
 	public boolean chatting() {
 		if (ctx.widgets.component(Constants.CHAT_WIDGET, 0).valid()) {
 			return true;

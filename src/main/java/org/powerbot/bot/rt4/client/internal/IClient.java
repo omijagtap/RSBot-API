@@ -1,6 +1,8 @@
 package org.powerbot.bot.rt4.client.internal;
 
-public interface IClient {
+import org.powerbot.bot.EventDispatcher;
+
+public interface IClient extends IGameEngine {
 
 	ICache getPlayerModelCache();
 
@@ -148,4 +150,5 @@ public interface IClient {
 
 	IPlayer getPlayer();
 
+	void setEventDispatcher(EventDispatcher dispatcher);
 }
