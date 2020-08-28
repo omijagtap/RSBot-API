@@ -59,7 +59,7 @@ public class Proxy<T> {
 		return this == o;
 	}
 
-	public Object get() {
+	public T get() {
 		return wrapped != null ? wrapped.get() : null;
 	}
 }

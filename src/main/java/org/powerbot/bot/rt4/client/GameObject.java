@@ -2,6 +2,7 @@ package org.powerbot.bot.rt4.client;
 
 import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IGameObject;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 
 public class GameObject extends BasicObject<IGameObject> {
 
@@ -79,5 +80,13 @@ public class GameObject extends BasicObject<IGameObject> {
 		}
 
 		return -1;
+	}
+
+	@Override
+	public IRenderable getRenderable() {
+		if (!isNull()) {
+			return wrapped.get().getRenderable();
+		}
+		return null;
 	}
 }

@@ -3,6 +3,8 @@ package org.powerbot.script.rt4;
 import org.powerbot.bot.rt4.HashTable;
 import org.powerbot.bot.rt4.client.Client;
 import org.powerbot.bot.rt4.client.*;
+import org.powerbot.bot.rt4.client.internal.IGameObject;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 import org.powerbot.script.Tile;
 import org.powerbot.script.*;
 
@@ -310,26 +312,26 @@ public class GameObject extends Interactive implements Nameable, InteractiveEnti
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int modelOrientation() {
-		return 0;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public int[] modelIds() {
 		final CacheObjectConfig c =  CacheObjectConfig.load(ctx.bot().getCacheWorker(), id());
 
 		return c != null ? c.meshId : null;
 	}
 
+	@Override
+	public IRenderable renderable() {
+		return object.object.getRenderable();
+	}
+
 	public enum Type {
 		INTERACTIVE, BOUNDARY, WALL_DECORATION, FLOOR_DECORATION, UNKNOWN
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void transformModel(final Model model) {
-		model.rotate(orientation());
+	public int modelOrientation() {
+		return 0;
 	}
 }

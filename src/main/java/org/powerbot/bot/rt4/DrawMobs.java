@@ -24,8 +24,6 @@ public class DrawMobs extends ClientAccessor implements PaintListener {
 			if (location.x == -1 || location.y == -1) {
 				continue;
 			}
-			render.setColor(Color.GREEN);
-			npc.drawModel(render);
 			render.setColor(Color.red);
 			render.fillRect((int) location.getX() - 1, (int) location.getY() - 1, 2, 2);
 			String s = npc.name() + " (" + npc.combatLevel() + " [" + npc.health() + "]) - " + npc.id();

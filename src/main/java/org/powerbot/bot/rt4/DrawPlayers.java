@@ -24,6 +24,7 @@ public class DrawPlayers extends ClientAccessor implements PaintListener {
 				if (location.x == -1 || location.y == -1) {
 					continue;
 				}
+
 				render.setColor(Color.RED);
 				render.fillRect((int) location.getX() - 1, (int) location.getY() - 1, 2, 2);
 				String s = player.name() + " (" + player.combatLevel() + " [" + player.health() + "])";

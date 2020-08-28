@@ -4,6 +4,10 @@ public interface IBoundaryObject extends IBasicObject {
 
 	int getMeta();
 
+	IRenderable getRenderable1();
+
+	IRenderable getRenderable2();
+
 	long getUid();
 
 }

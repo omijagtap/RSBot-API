@@ -2,10 +2,10 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface IVarbit extends IEntry {
 
-	int getStartBit();
+	int getEndBit();
 
 	int getIndex();
 
-	int getEndBit();
+	int getStartBit();
 
 }

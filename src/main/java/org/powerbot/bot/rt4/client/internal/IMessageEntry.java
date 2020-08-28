@@ -2,10 +2,10 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface IMessageEntry extends IEntry {
 
-	int getType();
+	String getMessage();
 
 	String getSender();
 
-	String getMessage();
+	int getType();
 
 }

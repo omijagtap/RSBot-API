@@ -5,6 +5,7 @@ import org.powerbot.bot.rt4.client.*;
 import org.powerbot.bot.rt4.client.internal.ICombatStatus;
 import org.powerbot.bot.rt4.client.internal.ICombatStatusData;
 import org.powerbot.bot.rt4.client.internal.INode;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 import org.powerbot.script.Tile;
 import org.powerbot.script.*;
 
@@ -297,6 +298,7 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		if (model2 != null && !model2.equals(defaultBounds)) {
 			return model2.contains(point);
 		}
+
 		final Model model = model();
 		if (model == null || model.nextPoint(localX(), localY(), modelOrientation()).equals(NIL_POINT)) {
 			return model2 != null && model2.contains(point);
@@ -423,14 +425,13 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 		return getActor().getZ();
 	}
 
-	/**
-	 * The orientation of the model.
-	 *
-	 * @return The model orientation.
-	 */
+	@Override
+	public IRenderable renderable() {
+		return (IRenderable) getActor().get();
+	}
+
 	@Override
 	public int modelOrientation() {
-		final org.powerbot.bot.rt4.client.Actor actor = getActor();
-		return actor != null ? actor.getOrientation() : -1;
+		return getActor().getOrientation();
 	}
 }

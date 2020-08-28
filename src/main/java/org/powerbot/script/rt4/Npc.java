@@ -139,18 +139,4 @@ public class Npc extends Actor implements Identifiable, Actionable {
 
 		return c != null ? c.modelIds : null;
 	}
-
-	@Override
-	public void transformModel(final Model model) {
-		final CacheNpcConfig c = CacheNpcConfig.load(ctx.bot().getCacheWorker(), id());
-		if (c == null) {
-			return;
-		}
-		if (c.widthScale != 128 || c.heightScale != 128) {
-			model.scale(c.widthScale, c.heightScale, c.widthScale);
-		}
-		if (c.modelOffsets != null) {
-			model.offsetVertices(c.modelOffsets[0][0], c.modelOffsets[0][1], c.modelOffsets[0][2]);
-		}
-	}
 }

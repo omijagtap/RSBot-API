@@ -4,6 +4,8 @@ public interface IFloorObject extends IBasicObject {
 
 	int getMeta();
 
+	IRenderable getRenderable();
+
 	long getUid();
 
 }

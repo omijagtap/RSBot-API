@@ -1,6 +1,7 @@
 package org.powerbot.bot.rt4.client;
 
 import org.powerbot.bot.Proxy;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 
 public abstract class BasicObject<T> extends Proxy<T> {
 
@@ -23,4 +24,6 @@ public abstract class BasicObject<T> extends Proxy<T> {
 	public abstract int getX2();
 
 	public abstract int getY2();
+
+	public abstract IRenderable getRenderable();
 }

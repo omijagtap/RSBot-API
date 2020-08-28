@@ -2,17 +2,17 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface INpcConfig extends IEntry {
 
-	int getId();
-
-	String getName();
-
 	String[] getActions();
-
-	int getVarbit();
 
 	int[] getConfigs();
 
+	int getId();
+
 	int getLevel();
+
+	String getName();
+
+	int getVarbit();
 
 	int getVarpbitIndex();
 

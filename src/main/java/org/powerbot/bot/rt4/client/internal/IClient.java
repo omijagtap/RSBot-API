@@ -4,21 +4,53 @@ import org.powerbot.bot.EventDispatcher;
 
 public interface IClient extends IGameEngine {
 
-	ICache getPlayerModelCache();
+	int getCameraPitch();
 
-	INodeDeque getProjectiles();
+	int getCameraX();
+
+	int getCameraY();
+
+	int getCameraYaw();
+
+	int getCameraZ();
+
+	int getClientState();
+
+	ICollisionMap[] getCollisionMaps();
+
+	int getCrosshairIndex();
+
+	int getCycle();
+
+	int getDestinationX();
+
+	int getDestinationY();
+
+	int getFloor();
+
+	ICache getGroundItemModelCache();
 
 	INodeDeque[][][] getGroundItems();
 
+	int getHintArrowNpcUid();
+
+	int getHintArrowPlayerUid();
+
+	int getHintArrowType();
+
 	int getHintArrowX();
 
-	int getRunPercentage();
+	int getHintArrowY();
 
-	int getSelectionIndex();
+	ICache getItemConfigCache();
 
-	int[] getSkillLevels1();
+	ILandscape getLandscape();
 
-	int[] getSkillExps();
+	byte[][][] getLandscapeMeta();
+
+	IEntryList getLoggerEntries();
+
+	int getLoginField();
 
 	String getLoginMessage1();
 
@@ -26,129 +58,98 @@ public interface IClient extends IGameEngine {
 
 	String getLoginMessage3();
 
-	IEntryList getLoggerEntries();
+	int getLoginState();
 
-	ICache getVarbitCache();
+	String[] getMenuActions();
 
-	int[] getWidgetBoundsHeight();
+	int getMenuCount();
 
-	int[] getWidgetBoundsWidth();
+	int getMenuHeight();
 
-	String getPassword();
+	String[] getMenuOptions();
 
-	int getHintArrowY();
+	int getMenuWidth();
 
-	int getPlayerIndex();
+	int getMenuX();
 
-	int getPlayerCount();
+	int getMenuY();
 
-	int getSelectionType();
+	int getMinimapAngle();
 
-	int getHintArrowNpcUid();
+	ICache getNpcConfigCache();
 
-	int getHintArrowPlayerUid();
+	int getNpcCount();
 
-	int getTileSize();
+	int[] getNpcIndices();
 
-	int[] getSkillLevels2();
+	ICache getNpcModelCache();
 
-	int getDestinationY();
-
-	int[] getVarpbits();
-
-	int getCrosshairIndex();
-
-	IWidget[][] getWidgets();
+	INpc[] getNpcs();
 
 	ICache getObjectConfigCache();
 
 	ICache getObjectModelCache();
 
-	ICache getNpcModelCache();
-
-	ICache getNpcConfigCache();
-
-	int getHintArrowType();
-
-	boolean isMenuOpen();
-
-	int getMenuX();
-
-	String[] getMenuActions();
-
-	int[] getWidgetBoundsY();
-
-	int[] getWidgetBoundsX();
-
-	IHashTable getWidgetTable();
-
-	int getDestinationX();
-
-	ICache getItemConfigCache();
-
-	ICache getGroundItemModelCache();
-
-	INpc[] getNpcs();
-
-	boolean isMembers();
-
-	int getMinimapAngle();
-
-	int getMenuHeight();
-
-	int getNpcCount();
-
-	byte[][][] getLandscapeMeta();
-
-	String[] getMenuOptions();
-
-	int getLoginField();
-
-	ICache getWidgetModelCache();
-
-	ICollisionMap[] getCollisionMaps();
-
-	int getMenuWidth();
-
-	int getMenuY();
-
-	int[] getPlayerIndices();
-
-	String getUsername();
-
-	ILandscape getLandscape();
-
-	int[] getNpcIndices();
-
-	int getCameraPitch();
-
-	int getCameraY();
-
-	int getCameraYaw();
-
-	int getCycle();
-
-	int getCameraZ();
-
-	int getCameraX();
-
-	IPlayer[] getPlayers();
-
-	int[][][] getTileHeights();
+	int getOffsetX();
 
 	int getOffsetY();
 
-	int getLoginState();
-
-	int getFloor();
-
-	int getClientState();
-
-	int getMenuCount();
-
-	int getOffsetX();
+	String getPassword();
 
 	IPlayer getPlayer();
 
+	int getPlayerCount();
+
+	int getPlayerIndex();
+
+	int[] getPlayerIndices();
+
+	ICache getPlayerModelCache();
+
+	IPlayer[] getPlayers();
+
+	INodeDeque getProjectiles();
+
+	int getRunPercentage();
+
+	int getSelectionIndex();
+
+	int getSelectionType();
+
+	int[] getSkillExps();
+
+	int[] getSkillLevels1();
+
+	int[] getSkillLevels2();
+
+	int[][][] getTileHeights();
+
+	int getTileSize();
+
+	String getUsername();
+
+	ICache getVarbitCache();
+
+	int[] getVarpbits();
+
+	int[] getWidgetBoundsHeight();
+
+	int[] getWidgetBoundsWidth();
+
+	int[] getWidgetBoundsX();
+
+	int[] getWidgetBoundsY();
+
+	ICache getWidgetModelCache();
+
+	IHashTable getWidgetTable();
+
+	IWidget[][] getWidgets();
+
+	boolean isMembers();
+
+	boolean isMenuOpen();
+
 	void setEventDispatcher(EventDispatcher dispatcher);
+
 }

@@ -20,7 +20,7 @@ public class NodeQueue {
 		e = e.getNext();
 
 		for (; !e.isNull() && e.isTypeOf(type) && !e.equals(s); e = e.getNext()) {
-			E obj = IteratorUtils.newInstance(q, e, type);
+			E obj = IteratorUtils.newInstance(e, type);
 			if (obj != null) {
 				list.add(obj);
 			}

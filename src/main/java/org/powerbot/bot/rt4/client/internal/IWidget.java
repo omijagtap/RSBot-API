@@ -2,31 +2,39 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface IWidget extends INode {
 
-	int getBoundsIndex();
-
-	int getTextColor();
-
-	int getBorderThickness();
-
-	String getTooltip();
-
-	int getTextureId();
-
 	String[] getActions();
 
-	String getText();
+	int getAngleX();
 
-	IWidget[] getChildren();
-
-	int getY();
-
-	int[] getItemIds();
+	int getAngleY();
 
 	int getAngleZ();
 
-	int getModelType();
+	int getBorderThickness();
+
+	int getBoundsIndex();
+
+	IWidget[] getChildren();
+
+	int getContentType();
+
+	int getHeight();
+
+	int getId();
+
+	int getItemId();
+
+	int[] getItemIds();
+
+	int getItemStackSize();
 
 	int[] getItemStackSizes();
+
+	int getModelId();
+
+	int getModelType();
+
+	int getModelZoom();
 
 	int getParentId();
 
@@ -36,32 +44,24 @@ public interface IWidget extends INode {
 
 	int getScrollX();
 
-	int getAngleY();
-
-	int getItemStackSize();
-
-	boolean isHidden();
-
-	int getModelId();
-
 	int getScrollY();
 
-	int getX();
+	String getText();
 
-	int getContentType();
+	int getTextColor();
+
+	int getTextureId();
+
+	String getTooltip();
 
 	int getType();
 
 	int getWidth();
 
-	int getAngleX();
+	int getX();
 
-	int getItemId();
+	int getY();
 
-	int getModelZoom();
-
-	int getHeight();
-
-	int getId();
+	boolean isHidden();
 
 }

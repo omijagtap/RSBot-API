@@ -1,9 +1,11 @@
 package org.powerbot.script.rt4;
 
+import org.powerbot.bot.rt4.client.internal.IModel;
 import org.powerbot.script.Random;
 import org.powerbot.script.Vector3;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -49,11 +51,23 @@ public class Model {
 			model.indicesX.clone(), model.indicesY.clone(), model.indicesZ.clone());
 	}
 
+	public Model update(final int[] verticesX, final int[] verticesY, final int[] verticesZ,
+				 final int[] indicesX, final int[] indicesY, final int[] indicesZ) {
+		this.verticesX = verticesX;
+		this.verticesY = verticesY;
+		this.verticesZ = verticesZ;
+		this.indicesX = indicesX;
+		this.indicesY = indicesY;
+		this.indicesZ = indicesZ;
+		save();
+
+		return this;
+	}
+
 	/**
 	 * Gets all the polygons of the model
 	 * @param localX the local x of the entity
 	 * @param localY the local y of the entity
-	 * @param orientation the orientation of the entity
 	 * @return a list of polygons
 	 */
 	public List<Polygon> polygons(final int localX, final int localY, int orientation) {
@@ -98,7 +112,7 @@ public class Model {
 	 * @param localX the local x of the entity
 	 * @param localY the local y of the entity
 	 * @param orientation the orientation of the entity
-	 * @param g graphics object to draw with
+	 * @param g graphics object to onRender with
 	 */
 	public void draw(final int localX, final int localY, final int orientation, final Graphics g) {
 		for (final Polygon polygon : polygons(localX, localY, orientation)) {
@@ -259,5 +273,17 @@ public class Model {
 
 	public int[] indicesZ() {
 		return indicesZ;
+	}
+
+	@Override
+	public String toString() {
+		return "Model{" +
+			"verticesX=" + verticesX.length +
+			", verticesY=" + verticesY.length +
+			", verticesZ=" + verticesZ.length +
+			", indicesX=" + indicesX.length +
+			", indicesY=" + indicesY.length +
+			", indicesZ=" + indicesZ.length +
+			'}';
 	}
 }

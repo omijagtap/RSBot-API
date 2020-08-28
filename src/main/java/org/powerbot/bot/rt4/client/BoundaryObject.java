@@ -1,7 +1,7 @@
 package org.powerbot.bot.rt4.client;
 
-import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IBoundaryObject;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 
 public class BoundaryObject extends BasicObject<IBoundaryObject> {
 
@@ -55,5 +55,13 @@ public class BoundaryObject extends BasicObject<IBoundaryObject> {
 	@Override
 	public int getY2() {
 		return -1;
+	}
+
+	@Override
+	public IRenderable getRenderable() {
+		if (!isNull()) {
+			return wrapped.get().getRenderable1() != null ? wrapped.get().getRenderable1() : wrapped.get().getRenderable2();
+		}
+		return null;
 	}
 }

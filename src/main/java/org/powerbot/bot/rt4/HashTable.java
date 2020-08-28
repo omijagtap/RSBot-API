@@ -55,7 +55,7 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 			return null;
 		}
 
-		return IteratorUtils.newInstance(table, next, type);
+		return IteratorUtils.newInstance(next, type);
 	}
 
 
@@ -71,17 +71,17 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 
 		final Node[] buckets = table.getBuckets();
 		if (buckets == null || buckets.length == 0) {
-			return IteratorUtils.newInstance(table, null, type);
+			return IteratorUtils.newInstance(null, type);
 		}
 
 		final Node n = buckets[(int) (id & buckets.length - 1)];
 		for (Node o = n.getNext(); !o.equals(n) && !o.isNull(); o = o.getNext()) {
 			if (o.getNodeId() == id) {
-				return IteratorUtils.newInstance(table, o, type);
+				return IteratorUtils.newInstance(o, type);
 			}
 		}
 
-		return IteratorUtils.newInstance(table, null, type);
+		return IteratorUtils.newInstance(null, type);
 	}
 }
 

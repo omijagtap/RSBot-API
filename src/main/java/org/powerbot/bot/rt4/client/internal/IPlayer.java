@@ -2,12 +2,12 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface IPlayer extends IActor {
 
-	IPlayerComposite getComposite();
+	int getCombatLevel();
 
-	int getTeam();
+	IPlayerComposite getComposite();
 
 	IStringRecord getName();
 
-	int getCombatLevel();
+	int getTeam();
 
 }

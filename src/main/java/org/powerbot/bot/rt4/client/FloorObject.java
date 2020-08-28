@@ -2,6 +2,8 @@ package org.powerbot.bot.rt4.client;
 
 import org.powerbot.bot.*;
 import org.powerbot.bot.rt4.client.internal.IFloorObject;
+import org.powerbot.bot.rt4.client.internal.IGameObject;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 
 public class FloorObject extends BasicObject<IFloorObject> {
 
@@ -55,5 +57,13 @@ public class FloorObject extends BasicObject<IFloorObject> {
 	@Override
 	public int getY2() {
 		return -1;
+	}
+
+	@Override
+	public IRenderable getRenderable() {
+		if (!isNull()) {
+			return wrapped.get().getRenderable();
+		}
+		return null;
 	}
 }

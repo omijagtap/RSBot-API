@@ -2,16 +2,16 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface ITile extends INode {
 
-	IItemPile getItemPile();
-
-	IWallObject getWallObject();
-
-	IGameObject[] getGameObjects();
+	IBoundaryObject getBoundaryObject();
 
 	IFloorObject getFloorObject();
 
-	IBoundaryObject getBoundaryObject();
-
 	int getGameObjectLength();
+
+	IGameObject[] getGameObjects();
+
+	IItemPile getItemPile();
+
+	IWallObject getWallObject();
 
 }

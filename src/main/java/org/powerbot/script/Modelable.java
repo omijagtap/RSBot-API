@@ -1,5 +1,7 @@
 package org.powerbot.script;
 
+import org.powerbot.bot.rt4.client.internal.IModel;
+import org.powerbot.bot.rt4.client.internal.IRenderable;
 import org.powerbot.script.rt4.CacheModelConfig;
 import org.powerbot.script.rt4.Model;
 
@@ -37,28 +39,29 @@ public interface Modelable {
 
 	org.powerbot.script.rt4.ClientContext ctx();
 
+	IRenderable renderable();
+
 	/**
 	 * Load the model from the cache
 	 * @return model
 	 */
 	default Model model() {
-		final int[] ids = modelIds();
+		Model model = ctx().modelCache.getModel(renderable());
+		if (model == null && renderable() instanceof IModel) {
+			final IModel renderableModel = (IModel) renderable();
+			ctx().modelCache.onRender(renderable(), renderableModel.getVerticesX().clone(), renderableModel.getVerticesY().clone(),
+				renderableModel.getVerticesZ().clone(), renderableModel.getIndicesX().clone(), renderableModel.getIndicesY().clone(),
+				renderableModel.getIndicesZ().clone());
 
-		final CacheModelConfig modelConfig = CacheModelConfig.load(ctx().bot().getCacheWorker(), ids);
-		if (modelConfig != null) {
-			final Model model = Model.fromCacheModel(ctx(), modelConfig);
-			transformModel(model);
-			return model;
+			model = ctx().modelCache.getModel(renderable());
 		}
 
-		return null;
+		return model;
 	}
-
-	default void transformModel(final Model model) {}
 
 	/**
 	 * Draws the model polygons on the screen for debug purposes
-	 * @param g - Graphics object to draw with
+	 * @param g - Graphics object to onRender with
 	 */
 	default void drawModel(final Graphics g) {
 		final Model model = model();

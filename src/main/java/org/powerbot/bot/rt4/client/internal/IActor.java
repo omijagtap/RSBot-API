@@ -2,17 +2,17 @@ package org.powerbot.bot.rt4.client.internal;
 
 public interface IActor extends IRenderable {
 
-	ILinkedList getCombatStatusList();
-
 	int getAnimation();
 
-	int getHeight();
+	ILinkedList getCombatStatusList();
 
-	String getOverheadMessage();
+	int getHeight();
 
 	int getInteractingIndex();
 
 	int getOrientation();
+
+	String getOverheadMessage();
 
 	int getSpeed();
 
