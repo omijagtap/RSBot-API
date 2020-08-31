@@ -5,6 +5,7 @@ import org.powerbot.bot.rt4.client.*;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 public class HashTable<N> implements Iterator<N>, Iterable<N> {
 	private final org.powerbot.bot.rt4.client.HashTable table;
@@ -74,7 +75,7 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 			return IteratorUtils.newInstance(null, type);
 		}
 
-		final Node n = buckets[(int) (id & buckets.length - 1)];
+		final Node n = buckets[buckets.length - 1];
 		for (Node o = n.getNext(); !o.equals(n) && !o.isNull(); o = o.getNext()) {
 			if (o.getNodeId() == id) {
 				return IteratorUtils.newInstance(o, type);
@@ -82,6 +83,29 @@ public class HashTable<N> implements Iterator<N>, Iterable<N> {
 		}
 
 		return IteratorUtils.newInstance(null, type);
+	}
+
+	public static <E extends Proxy, I> E lookup(final org.powerbot.bot.rt4.client.IterableHashTable table,
+												final long id,
+												final Class<E> type,
+												final Function<I, E> newFn) {
+		if (table == null) {
+			return null;
+		}
+
+		final Node[] buckets = table.getBuckets();
+		if (buckets == null || buckets.length == 0) {
+			return newFn.apply(null);
+		}
+
+		final Node n = buckets[buckets.length - 1];
+		for (Node o = n.getNext(); !o.equals(n) && !o.isNull(); o = o.getNext()) {
+			if (o.getNodeId() == id && o.get() != null && o.isTypeOf(type)) {
+				return newFn.apply((I) o.get());
+			}
+		}
+
+		return newFn.apply(null);
 	}
 }
 

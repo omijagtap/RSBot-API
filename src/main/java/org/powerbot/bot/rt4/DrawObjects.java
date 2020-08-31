@@ -32,7 +32,7 @@ public class DrawObjects extends ClientAccessor implements PaintListener {
 		final int textHeight = metrics.getHeight();
 
 		final Map<Tile, AtomicInteger> counts = new HashMap<>();
-		for (final GameObject object : ctx.objects.select(8).select(o -> o.type() == type)) {
+		for (final GameObject object : ctx.objects.select(1).select(o -> o.type() == type)) {
 			final Tile t = object.tile();
 			if (t == null) {
 				continue;
