@@ -89,4 +89,13 @@ public class GameObject extends BasicObject<IGameObject> {
 		}
 		return null;
 	}
+
+	@Override
+	public int getOrientation() {
+		if (!isNull()) {
+			return wrapped.get().getOrientation();
+		}
+
+		return -1;
+	}
 }

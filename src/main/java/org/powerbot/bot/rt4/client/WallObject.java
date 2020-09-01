@@ -66,4 +66,13 @@ public class WallObject extends BasicObject<IWallObject> {
 		}
 		return null;
 	}
+
+	@Override
+	public int getOrientation() {
+		if (!isNull()) {
+			return wrapped.get().getOrientation1() > 0 ? wrapped.get().getOrientation1() : wrapped.get().getOrientation2();
+		}
+
+		return -1;
+	}
 }

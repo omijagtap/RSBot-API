@@ -28,7 +28,7 @@ public class Model {
 	private int[] originalIndicesZ;
 
 	public Model(final ClientContext ctx, final int[] verticesX, final int[] verticesY, final int[] verticesZ,
-				 final int[] indicesX, final int[] indicesY, final int[] indicesZ) {
+				 final int[] indicesX, final int[] indicesY, final int[] indicesZ, final boolean mirror) {
 		this.ctx = ctx;
 		this.verticesX = verticesX;
 		this.verticesY = verticesY;
@@ -36,30 +36,31 @@ public class Model {
 		this.indicesX = indicesX;
 		this.indicesY = indicesY;
 		this.indicesZ = indicesZ;
-		save();
+
+		save(mirror);
 	}
 
-	private void save() {
+	private void save(final boolean mirror) {
 		this.originalVerticesX = verticesX.clone();
 		this.originalVerticesZ = verticesZ.clone();
 		this.originalIndicesX = indicesX.clone();
 		this.originalIndicesZ = indicesZ.clone();
-	}
 
-	public static Model fromCacheModel(final ClientContext ctx, final CacheModelConfig model) {
-		return new Model(ctx, model.verticesX.clone(), model.verticesY.clone(), model.verticesZ.clone(),
-			model.indicesX.clone(), model.indicesY.clone(), model.indicesZ.clone());
+		if (mirror) {
+			mirrorModel();
+		}
 	}
 
 	public Model update(final int[] verticesX, final int[] verticesY, final int[] verticesZ,
-				 final int[] indicesX, final int[] indicesY, final int[] indicesZ) {
+				 final int[] indicesX, final int[] indicesY, final int[] indicesZ, final boolean mirror) {
 		this.verticesX = verticesX;
 		this.verticesY = verticesY;
 		this.verticesZ = verticesZ;
 		this.indicesX = indicesX;
 		this.indicesY = indicesY;
 		this.indicesZ = indicesZ;
-		save();
+
+		save(mirror);
 
 		return this;
 	}
@@ -71,10 +72,9 @@ public class Model {
 	 * @return a list of polygons
 	 */
 	public List<Polygon> polygons(final int localX, final int localY, int orientation) {
-		orientation = ((orientation & 0x3FFF) + 1024) % 2048;
-		setOrientation(8192);
+//		orientation = ((orientation & 0x3FFF) + 1024) % 2048;
 		if (orientation != 0) {
-			setOrientation(orientation);
+			setOrientation(orientation % 2048);
 		}
 
 		final int[] indX = indicesX();
@@ -210,32 +210,14 @@ public class Model {
 
 	public void mirrorModel() {
 		for(int i = 0; i < this.originalVerticesZ.length; ++i) {
-			this.verticesZ[i] = -this.originalVerticesZ[i];
+			this.originalVerticesZ[i] = -this.originalVerticesZ[i];
 		}
 
 		for(int i = 0; i < this.originalIndicesX.length; ++i) {
 			final int oldX = this.originalIndicesX[i];
-			this.indicesX[i] = this.originalIndicesZ[i];
-			this.indicesZ[i] = oldX;
+			this.originalIndicesX[i] = this.originalIndicesZ[i];
+			this.originalIndicesZ[i] = oldX;
 		}
-	}
-
-	public void scale(final int scaleX, final int scaleY, final int scaleZ) {
-		for (int i = 0; i < verticesX.length; ++i) {
-			verticesX[i] = scaleX * verticesX[i] / 128;
-			verticesY[i] = scaleY * verticesY[i] / 128;
-			verticesZ[i] = scaleZ * verticesZ[i] / 128;
-		}
-		save();
-	}
-
-	public void offsetVertices(final int xOff, final int yOff, final int zOff) {
-		for (int i = 0; i < verticesX.length; i++) {
-			verticesX[i] += xOff;
-			verticesY[i] += yOff;
-			verticesZ[i] += zOff;
-		}
-		save();
 	}
 
 	public void rotate(final int num) {

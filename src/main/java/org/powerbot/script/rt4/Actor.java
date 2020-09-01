@@ -415,23 +415,47 @@ public abstract class Actor extends Interactive implements InteractiveEntity, Na
 	 */
 	@Override
 	public int localX() {
-		return getActor().getX();
+		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+
+		return actor != null ? getActor().getX() : 0;
 	}
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int localY() {
-		return getActor().getZ();
+		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+
+		return actor != null ? actor.getZ() : 0;
 	}
 
 	@Override
 	public IRenderable renderable() {
-		return (IRenderable) getActor().get();
+		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+
+		return actor != null ? (IRenderable) actor.get() : null;
 	}
 
 	@Override
 	public int modelOrientation() {
-		return getActor().getOrientation();
+		final org.powerbot.bot.rt4.client.Actor actor = getActor();
+
+		return actor != null ? (actor.getOrientation() + 512) & 0x3FFF : 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isAnimated() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean mirrorModel() {
+		return true;
 	}
 }

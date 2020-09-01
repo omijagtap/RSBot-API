@@ -316,7 +316,6 @@ public class GameObject extends Interactive implements Nameable, InteractiveEnti
 	@Override
 	public int[] modelIds() {
 		final CacheObjectConfig c =  CacheObjectConfig.load(ctx.bot().getCacheWorker(), id());
-
 		return c != null ? c.meshId : null;
 	}
 
@@ -334,6 +333,23 @@ public class GameObject extends Interactive implements Nameable, InteractiveEnti
 	 */
 	@Override
 	public int modelOrientation() {
-		return 0;
+		return (object.object.getOrientation() + 1024) & 0x3FFF;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isAnimated() {
+		return false;
+	}
+
+	public int meta() {
+		return object.getMeta();
+	}
+
+	@Override
+	public boolean mirrorModel() {
+		return false;
 	}
 }

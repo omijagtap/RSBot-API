@@ -21,7 +21,6 @@ public class TPlayer extends ClientAccessor implements TextPaintListener {
 		drawLine(render, idx++, String.format("[%s] A: %d, CBL: %d, HP: %d, T: %d, S: %d, INT: %s", player.name(), player.animation(), player.combatLevel(), player.health(), player.team(), player.speed(), player.interacting()));
 		drawLine(render, idx++, String.format("ORIENT: %d, COMBAT: %s, APP (VE): %s", player.orientation(), player.inCombat(), Arrays.toString(player.appearance())));
 
-		player.drawModel(render);
 		return idx;
 	}
 }

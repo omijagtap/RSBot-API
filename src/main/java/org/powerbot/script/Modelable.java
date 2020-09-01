@@ -2,7 +2,6 @@ package org.powerbot.script;
 
 import org.powerbot.bot.rt4.client.internal.IModel;
 import org.powerbot.bot.rt4.client.internal.IRenderable;
-import org.powerbot.script.rt4.CacheModelConfig;
 import org.powerbot.script.rt4.Model;
 
 import java.awt.*;
@@ -34,6 +33,7 @@ public interface Modelable {
 	/**
 	 * Model ids to load from the cache
 	 * @return model ids
+	 * @deprecated - not required anymore
 	 */
 	int[] modelIds();
 
@@ -42,18 +42,30 @@ public interface Modelable {
 	IRenderable renderable();
 
 	/**
+	 * Whether or not the model is animated
+	 * @return true if the model is animated
+	 */
+	boolean isAnimated();
+
+	/**
+	 * Whether or not the model should be mirrored
+	 * @return true if the model is mirrored
+	 */
+	boolean mirrorModel();
+
+	/**
 	 * Load the model from the cache
 	 * @return model
 	 */
 	default Model model() {
-		Model model = ctx().modelCache.getModel(renderable());
+		Model model = ctx().modelCache.getModel(renderable(), isAnimated(), mirrorModel());
 		if (model == null && renderable() instanceof IModel) {
 			final IModel renderableModel = (IModel) renderable();
 			ctx().modelCache.onRender(renderable(), renderableModel.getVerticesX().clone(), renderableModel.getVerticesY().clone(),
 				renderableModel.getVerticesZ().clone(), renderableModel.getIndicesX().clone(), renderableModel.getIndicesY().clone(),
 				renderableModel.getIndicesZ().clone());
 
-			model = ctx().modelCache.getModel(renderable());
+			model = ctx().modelCache.getModel(renderable(), isAnimated(), mirrorModel());
 		}
 
 		return model;

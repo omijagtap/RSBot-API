@@ -26,4 +26,6 @@ public abstract class BasicObject<T> extends Proxy<T> {
 	public abstract int getY2();
 
 	public abstract IRenderable getRenderable();
+
+	public abstract int getOrientation();
 }

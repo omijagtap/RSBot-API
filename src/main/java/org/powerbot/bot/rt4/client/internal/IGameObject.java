@@ -4,6 +4,8 @@ public interface IGameObject extends IBasicObject {
 
 	int getMeta();
 
+	int getOrientation();
+
 	IRenderable getRenderable();
 
 	long getUid();

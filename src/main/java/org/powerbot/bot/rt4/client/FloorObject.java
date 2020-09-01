@@ -66,4 +66,13 @@ public class FloorObject extends BasicObject<IFloorObject> {
 		}
 		return null;
 	}
+
+	@Override
+	public int getOrientation() {
+		if (!isNull()) {
+			return 0;
+		}
+
+		return -1;
+	}
 }

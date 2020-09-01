@@ -32,7 +32,7 @@ public class DrawObjects extends ClientAccessor implements PaintListener {
 		final int textHeight = metrics.getHeight();
 
 		final Map<Tile, AtomicInteger> counts = new HashMap<>();
-		for (final GameObject object : ctx.objects.select(1).select(o -> o.type() == type)) {
+		for (final GameObject object : ctx.objects.select(8).select(o -> o.type() == type)) {
 			final Tile t = object.tile();
 			if (t == null) {
 				continue;
@@ -44,9 +44,6 @@ public class DrawObjects extends ClientAccessor implements PaintListener {
 			if (p.x == -1) {
 				continue;
 			}
-
-			render.setColor(Color.ORANGE);
-			object.drawModel(render);
 
 			render.setColor(Color.black);
 			render.fillRect(p.x - 1, p.y - 1, 2, 2);
@@ -64,6 +61,8 @@ public class DrawObjects extends ClientAccessor implements PaintListener {
 				}
 				b.append(" (").append(n).append('/').append(arr[0]).append(')');
 			}
+			b.append(" - ").append(object.orientation()).append("/").append(object.modelOrientation())
+				.append("/").append(object.meta()).append("/").append(((object.modelOrientation() & 0x3FFF) + 1024) % 2048);
 			render.drawString(b.toString(), tx, ty - textHeight * counts.get(t).getAndIncrement());
 		}
 	}
