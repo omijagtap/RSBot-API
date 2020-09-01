@@ -37,12 +37,7 @@ public class RandomEvents extends PollingScript<ClientContext> {
 			}
 		}
 		if (npc.interact(false, "Dismiss")) {
-			Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return !npc.valid();
-				}
-			}, 300, 12);
+			Condition.wait(() -> !npc.valid(), 300, 12);
 		}
 	}
 }

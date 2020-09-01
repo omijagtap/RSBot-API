@@ -99,12 +99,7 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 	 */
 	@Override
 	public final boolean click(final Filter<? super MenuCommand> f) {
-		return valid() && ctx.input.apply(this, point -> Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.menu.indexOf(f) == 0;
-			}
-		}, 5, 10) && ctx.input.click(true));
+		return valid() && ctx.input.apply(this, point -> Condition.wait(() -> ctx.menu.indexOf(f) == 0, 5, 10) && ctx.input.click(true));
 	}
 
 	/**
@@ -154,22 +149,12 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 		if (!valid()) {
 			return false;
 		}
-		final Filter<Point> f_auto = point -> Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.menu.indexOf(f) != -1;
-			}
-		}, 15, 10);
+		final Filter<Point> f_auto = point -> Condition.wait(() -> ctx.menu.indexOf(f) != -1, 15, 10);
 
 		Rectangle r = new Rectangle(-1, -1, -1, -1);
 		for (int i = 0; i < 3; i++) {
 			final Rectangle c = r;
-			if (!ctx.input.apply(this, auto ? f_auto : (Filter<Point>) point -> !(c.contains(point) && ctx.menu.opened()) && ctx.input.click(false) && Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return ctx.menu.opened() && !ctx.menu.bounds().equals(c);
-				}
-			}, 20, 10))) {
+			if (!ctx.input.apply(this, auto ? f_auto : (Filter<Point>) point -> !(c.contains(point) && ctx.menu.opened()) && ctx.input.click(false) && Condition.wait(() -> ctx.menu.opened() && !ctx.menu.bounds().equals(c), 20, 10))) {
 				continue;
 			}
 
@@ -190,12 +175,7 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 	 */
 	@Override
 	public boolean click(final Crosshair result) {
-		return click() && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.game.crosshair() == result;
-			}
-		}, 10, 5);
+		return click() && Condition.wait(() -> ctx.game.crosshair() == result, 10, 5);
 	}
 
 	/**
@@ -203,12 +183,7 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 	 */
 	@Override
 	public boolean click(final String action, final Crosshair result) {
-		return click(action) && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.game.crosshair() == result;
-			}
-		}, 10, 5);
+		return click(action) && Condition.wait(() -> ctx.game.crosshair() == result, 10, 5);
 	}
 
 	/**
@@ -216,12 +191,7 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 	 */
 	@Override
 	public boolean click(final String action, final String option, final Crosshair result) {
-		return click(action, option) && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.game.crosshair() == result;
-			}
-		}, 10, 5);
+		return click(action, option) && Condition.wait(() -> ctx.game.crosshair() == result, 10, 5);
 	}
 
 	/**
@@ -229,12 +199,7 @@ public abstract class Interactive extends ClientAccessor implements org.powerbot
 	 */
 	@Override
 	public boolean click(final Filter<? super MenuCommand> c, final Crosshair result) {
-		return click(c) && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return ctx.game.crosshair() == result;
-			}
-		}, 10, 5);
+		return click(c) && Condition.wait(() -> ctx.game.crosshair() == result, 10, 5);
 	}
 
 	/**

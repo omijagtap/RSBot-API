@@ -71,19 +71,9 @@ public class TilePath extends Path {
 		if (ctx.movement.step(next)) {
 			spaced_action.set(-1);
 			if (local.inMotion()) {
-				return Condition.wait(new Condition.Check() {
-					@Override
-					public boolean poll() {
-						return ctx.movement.destination().distanceTo(next) < 3;
-					}
-				}, 60, 10);
+				return Condition.wait(() -> ctx.movement.destination().distanceTo(next) < 3, 60, 10);
 			}
-			return next.distanceTo(ctx.players.local()) < 5d || Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return ctx.players.local().inMotion() && ctx.movement.destination().distanceTo(next) < 3;
-				}
-			}, 125, 10);
+			return next.distanceTo(ctx.players.local()) < 5d || Condition.wait(() -> ctx.players.local().inMotion() && ctx.movement.destination().distanceTo(next) < 3, 125, 10);
 		}
 		return false;
 	}
@@ -98,12 +88,7 @@ public class TilePath extends Path {
 		/* Wait for map not to be loading */
 		final int state = ctx.game.clientState();
 		if (state == Constants.GAME_LOADING) {
-			Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return ctx.game.clientState() != Constants.GAME_LOADING;
-				}
-			});
+			Condition.wait(() -> ctx.game.clientState() != Constants.GAME_LOADING);
 			return next();
 		}
 		if (state != Constants.GAME_LOADED) {

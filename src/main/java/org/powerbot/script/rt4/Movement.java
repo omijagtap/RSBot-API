@@ -163,12 +163,7 @@ public class Movement extends ClientAccessor {
 	 */
 	public boolean running(final boolean running) {
 		return running == running() || (ctx.widgets.widget(Constants.MOVEMENT_MAP).component(Constants.MOVEMENT_RUN_ENERGY - 1).interact("Toggle Run") &&
-				Condition.wait(new Condition.Check() {
-					@Override
-					public boolean poll() {
-						return running() == running;
-					}
-				}, 20, 10));
+				Condition.wait(() -> running() == running, 20, 10));
 	}
 
 	/**

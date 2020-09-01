@@ -90,12 +90,7 @@ public class Game extends ClientAccessor {
 				return false;
 			});
 		}
-		return interacted && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return tab() == tab;
-			}
-		}, 50, 10);
+		return interacted && Condition.wait(() -> tab() == tab, 50, 10);
 	}
 
 	/**

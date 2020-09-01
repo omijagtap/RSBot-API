@@ -138,12 +138,7 @@ public class DepositBox extends ItemQuery<Item> {
 			return false;
 		}
 		if (action.endsWith("X")) {
-			if (!Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return ctx.chat.pendingInput();
-				}
-			}, 300, 10)) {
+			if (!Condition.wait(() -> ctx.chat.pendingInput(), 300, 10)) {
 				return false;
 			}
 			Condition.sleep();
