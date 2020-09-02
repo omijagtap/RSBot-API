@@ -114,30 +114,15 @@ public class Bank extends ItemQuery<Item> {
 		final Filter<MenuCommand> filter = command -> BANK_ACTIONS.contains(command.action);
 
 		if (interactive.hover()) {
-			Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return ctx.menu.indexOf(filter) != -1;
-				}
-			}, 100, 3);
+			Condition.wait(() -> ctx.menu.indexOf(filter) != -1, 100, 3);
 		}
 
 		if (interactive.interact(filter)) {
 			do {
-				Condition.wait(new Condition.Check() {
-					@Override
-					public boolean poll() {
-						return opened();
-					}
-				}, 150, 15);
+				Condition.wait(() -> opened(), 150, 15);
 			} while (ctx.players.local().inMotion());
 
-			Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return opened();
-				}
-			}, 100, 15);
+			Condition.wait(() -> opened(), 100, 15);
 		}
 		return opened();
 
@@ -653,12 +638,7 @@ public class Bank extends ItemQuery<Item> {
 	 */
 	public boolean currentTab(final int index) {
 		final Component c = ctx.widgets.component(Constants.BANK_WIDGET, 21).component(index);
-		return (currentTab() == index) || c.click() && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return currentTab() == index;
-			}
-		}, 100, 8);
+		return (currentTab() == index) || c.click() && Condition.wait(() -> currentTab() == index, 100, 8);
 	}
 
 	/**
@@ -758,12 +738,7 @@ public class Bank extends ItemQuery<Item> {
 	 * @return {@code true} if withdrawing mode is already set, or was successfully set to the desired withdrawing mode; otherwise {@code false}
 	 */
 	public boolean withdrawModeNoted(final boolean noted) {
-		return withdrawModeNoted() == noted || (ctx.widgets.widget(Constants.BANK_WIDGET).component(noted ? Constants.BANK_NOTE : Constants.BANK_ITEM).interact(noted ? "Note" : "Item") && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return withdrawModeNoted() == noted;
-			}
-		}, 30, 10));
+		return withdrawModeNoted() == noted || (ctx.widgets.widget(Constants.BANK_WIDGET).component(noted ? Constants.BANK_NOTE : Constants.BANK_ITEM).interact(noted ? "Note" : "Item") && Condition.wait(() -> withdrawModeNoted() == noted, 30, 10));
 	}
 
 	/**

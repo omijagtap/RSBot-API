@@ -149,12 +149,7 @@ public class Menu extends ClientAccessor implements Stoppable {
 				return false;
 			}
 		}
-		if (!Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return client.isMenuOpen();
-			}
-		}, 15, 10) || (idx = indexOf(filter)) == -1) {
+		if (!Condition.wait(() -> client.isMenuOpen(), 15, 10) || (idx = indexOf(filter)) == -1) {
 			return false;
 		}
 		final Rectangle rectangle = new Rectangle(client.getMenuX(), client.getMenuY() + 19 + idx * 15, client.getMenuWidth(), 15);
@@ -197,12 +192,7 @@ public class Menu extends ClientAccessor implements Stoppable {
 		} else {
 			ctx.input.move(x1, y1);
 		}
-		return Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return client.isMenuOpen();
-			}
-		}, 10, 50);
+		return Condition.wait(() -> client.isMenuOpen(), 10, 50);
 	}
 
 	/**

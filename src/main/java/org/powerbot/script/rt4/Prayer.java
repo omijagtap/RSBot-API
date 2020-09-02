@@ -74,12 +74,7 @@ public class Prayer extends ClientAccessor {
 			}
 		}
 
-		return Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return quickSelectionActive() == quick;
-			}
-		}, 150, 10);
+		return Condition.wait(() -> quickSelectionActive() == quick, 150, 10);
 	}
 
 	public boolean prayerQuick(final Effect effect) {

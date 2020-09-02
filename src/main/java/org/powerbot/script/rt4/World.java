@@ -210,8 +210,8 @@ public class World extends ClientAccessor
 						ctx.chat.continueChat("Yes.");
 					}
 				}
-				return Condition.wait(new ClientStateCondition(45), 100, 20) &&
-						Condition.wait(new ClientStateCondition(30), 100, 100);
+				return Condition.wait(() -> ctx.game.clientState() == 45, 100, 20) &&
+						Condition.wait(() -> ctx.game.clientState() == 30, 100, 100);
 			}
 		}
 		return false;
@@ -255,20 +255,5 @@ public class World extends ClientAccessor
 	@Override
 	public boolean equals(final Object o) {
 		return (o instanceof World) && ((World) o).number == number;
-	}
-
-	private class ClientStateCondition extends Condition.Check {
-
-		private final int state;
-
-		private ClientStateCondition(final int state) {
-			this.state = state;
-		}
-
-
-		@Override
-		public boolean poll() {
-			return ctx.game.clientState() == state;
-		}
 	}
 }

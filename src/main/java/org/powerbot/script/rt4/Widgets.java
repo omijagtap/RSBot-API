@@ -270,12 +270,7 @@ public class Widgets extends IdQuery<Widget> {
 		if (closeButton == null || !closeButton.valid()) {
 			return true;
 		}
-		return (hotkey ? ctx.input.send("{VK_ESCAPE}") : closeButton.click()) && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return !closeButton.valid();
-			}
-		}, 50, 16);
+		return (hotkey ? ctx.input.send("{VK_ESCAPE}") : closeButton.click()) && Condition.wait(() -> !closeButton.valid(), 50, 16);
 	}
 
 	private Component findCloseButton(final Component[] components) {

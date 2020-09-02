@@ -42,12 +42,7 @@ public class WidgetCloser extends PollingScript<ClientContext> {
 			final Component c = ctx.widgets.component(id >> 16, id & 0xffff);
 			final Point p = c.screenPoint();
 			if (c.visible() && c.click()) {
-				if (Condition.wait(new Condition.Check() {
-					@Override
-					public boolean poll() {
-						return !c.visible() || !c.screenPoint().equals(p);
-					}
-				})) {
+				if (Condition.wait(() -> !c.visible() || !c.screenPoint().equals(p))) {
 					a.set(0);
 				} else {
 					a.incrementAndGet();

@@ -89,12 +89,7 @@ public class Combat extends ClientAccessor {
 			c = ctx.components.poll();
 		}
 		final int current = specialPercentage();
-		return c != null && c.visible() && c.click() && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return specialAttack() == select || specialPercentage() != current;
-			}
-		}, 300, 6);
+		return c != null && c.visible() && c.click() && Condition.wait(() -> specialAttack() == select || specialPercentage() != current, 300, 6);
 	}
 
 	/**
@@ -120,12 +115,7 @@ public class Combat extends ClientAccessor {
 			return false;
 		}
 		final Component c = retaliateComp == null ? (retaliateComp = ctx.components.select(Constants.COMBAT_OPTIONS_WIDGET).textContains("Auto Retaliate").poll()) : retaliateComp;
-		return c != null && c.visible() && c.click() && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return autoRetaliate() == set;
-			}
-		}, 300, 6);
+		return c != null && c.visible() && c.click() && Condition.wait(() -> autoRetaliate() == set, 300, 6);
 	}
 
 	/**
@@ -151,12 +141,7 @@ public class Combat extends ClientAccessor {
 			return false;
 		}
 		final Component c = style.comp == null ? (style.comp = ctx.widgets.component(Constants.COMBAT_OPTIONS_WIDGET, 4 + (style.ordinal() * 4))) : style.comp;
-		return c != null && c.visible() && c.click() && Condition.wait(new Condition.Check() {
-			@Override
-			public boolean poll() {
-				return style() == style;
-			}
-		}, 300, 6);
+		return c != null && c.visible() && c.click() && Condition.wait(() -> style() == style, 300, 6);
 	}
 
 	/**

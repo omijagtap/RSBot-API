@@ -91,12 +91,7 @@ public class Camera extends ClientAccessor {
 		ctx.input.send(up ? "{VK_UP down}" : "{VK_DOWN down}");
 		for (; ; ) {
 			final int tp = pitch();
-			if (!Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return pitch() != tp;
-				}
-			}, 10, 10)) {
+			if (!Condition.wait(() -> pitch() != tp, 10, 10)) {
 				break;
 			}
 			final int p = pitch();
@@ -148,12 +143,7 @@ public class Camera extends ClientAccessor {
 		final float dir = Math.signum(angleTo(d));
 		for (; ; ) {
 			final int a2 = angleTo(d);
-			if (!Condition.wait(new Condition.Check() {
-				@Override
-				public boolean poll() {
-					return angleTo(d) != a2;
-				}
-			}, 10, 10)) {
+			if (!Condition.wait(() -> angleTo(d) != a2, 10, 10)) {
 				break;
 			}
 			final int at = angleTo(d);

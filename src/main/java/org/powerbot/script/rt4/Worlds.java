@@ -136,11 +136,7 @@ public class Worlds extends AbstractQuery<Worlds, World, ClientContext> implemen
 		}
 		ctx.game.tab(Game.Tab.LOGOUT);
 		final Component c = component(LOGOUT_WIDGET, "World Switcher");
-		return c.valid() && c.click() && Condition.wait(new Condition.Check() {
-			public boolean poll() {
-				return ctx.widgets.widget(WORLD_WIDGET).valid();
-			}
-		}, 100, 20);
+		return c.valid() && c.click() && Condition.wait(() -> ctx.widgets.widget(WORLD_WIDGET).valid(), 100, 20);
 	}
 
 	@Override
