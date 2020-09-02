@@ -15,8 +15,8 @@ import static org.powerbot.script.rt4.Constants.*;
  */
 public class Bank extends ItemQuery<Item> {
 
-	private static final Set<Tile> BANK_UNREACHABLES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Constants.BANK_UNREACHABLES)));
-	private static final Set<String> BANK_ACTIONS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Bank", "Use", "Open", "bank", "use", "open")));
+	private static final Set<Tile> BANK_UNREACHABLES = Set.of(Constants.BANK_UNREACHABLES);
+	private static final Set<String> BANK_ACTIONS = Set.of("Bank", "Use", "Open", "bank", "use", "open");
 
 	public Bank(final ClientContext ctx) {
 		super(ctx);
