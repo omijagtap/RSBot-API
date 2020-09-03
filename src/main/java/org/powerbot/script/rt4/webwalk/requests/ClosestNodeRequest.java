@@ -1,5 +1,6 @@
 package org.powerbot.script.rt4.webwalk.requests;
 
+import com.google.gson.Gson;
 import org.powerbot.script.Locatable;
 import org.powerbot.script.rt4.webwalk.WebNode;
 
@@ -15,11 +16,11 @@ public class ClosestNodeRequest implements Request<WebNode> {
 
 	@Override
 	public String getEndpoint() {
-		return "/closest_node/" + x + "/" + y + "/" + z;
+		return "/closest_node/?x=" + x + "&y=" + y + "&z=" + z;
 	}
 
 	@Override
-	public WebNode parseResponse(final String raw) {
-		return null;
+	public WebNode parseResponse(final String json) {
+		return new Gson().fromJson(json, WebNode.class);
 	}
 }

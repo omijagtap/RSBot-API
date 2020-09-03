@@ -4,5 +4,5 @@ public interface Request<T> {
 
 	String getEndpoint();
 
-	T parseResponse(final String raw);
+	T parseResponse(final String json);
 }
