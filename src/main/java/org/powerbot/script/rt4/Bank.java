@@ -193,12 +193,12 @@ public class Bank extends ItemQuery<Item> {
 	}
 
 	/**
-	 * Withdraws an item with the provided name and amount.
+	 * Withdraws an item with the provided id and amount.
 	 *
 	 * @param id      the id of the item
 	 * @param amount  the amount to withdraw
 	 * @param waitFor the condition to wait for
-	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn. False otherwise.
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final int id, final Amount amount, final Callable<Boolean> waitFor) {
 		return withdraw(id, amount.getValue(), waitFor);
@@ -220,9 +220,10 @@ public class Bank extends ItemQuery<Item> {
 	 * Withdraws an item with the provided name and amount.
 	 * If multiple items of the same name are present, the first one is chosen.
 	 *
-	 * @param name   the name of the item
-	 * @param amount the amount to withdraw
-	 * @return {@code true} if the item was withdrawn, does not determine if amount was matched; otherwise, {@code false}
+	 * @param name    the name of the item
+	 * @param amount  the amount to withdraw
+	 * @param waitFor the condition to wait for
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final String name, final Amount amount, final Callable<Boolean> waitFor) {
 		return withdraw(select().name(name).poll(), amount.getValue(), waitFor);
@@ -244,9 +245,10 @@ public class Bank extends ItemQuery<Item> {
 	 * Withdraws an item with the provided name and amount.
 	 * If multiple items match the filter, the first one is chosen.
 	 *
-	 * @param filter the filter to apply to the items in the bank
-	 * @param amount the amount to withdraw
-	 * @return {@code true} if the item was withdrawn, does not determine if amount was matched; otherwise, {@code false}
+	 * @param filter  the filter to apply to the items in the bank
+	 * @param amount  the amount to withdraw
+	 * @param waitFor the condition to wait for
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final Filter<Item> filter, final Amount amount, final Callable<Boolean> waitFor) {
 		return withdraw(select().select(filter).poll(), amount.getValue(), waitFor);
@@ -264,12 +266,12 @@ public class Bank extends ItemQuery<Item> {
 	}
 
 	/**
-	 * Withdraws an item with the provided name and amount.
+	 * Withdraws an item with the provided id and amount.
 	 *
 	 * @param id      the id of the item
 	 * @param amount  the amount to withdraw
 	 * @param waitFor the condition to wait for
-	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn. False otherwise.
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final int id, final int amount, final Callable<Boolean> waitFor) {
 		return withdraw(select().id(id).poll(), amount, waitFor);
@@ -294,7 +296,7 @@ public class Bank extends ItemQuery<Item> {
 	 * @param name    the filter to apply to the items in the bank
 	 * @param amount  the amount to withdraw
 	 * @param waitFor the condition to wait for
-	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn. False otherwise.
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final String name, final int amount, final Callable<Boolean> waitFor) {
 		return withdraw(select().name(name).poll(), amount, waitFor);
@@ -319,7 +321,7 @@ public class Bank extends ItemQuery<Item> {
 	 * @param filter  the filter to apply to the items in the bank
 	 * @param amount  the amount to withdraw
 	 * @param waitFor the condition to wait for
-	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn. False otherwise.
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final Filter<Item> filter, final int amount, final Callable<Boolean> waitFor) {
 		return withdraw(select().select(filter).poll(), amount, waitFor);
@@ -342,7 +344,7 @@ public class Bank extends ItemQuery<Item> {
 	 * @param item    the item to withdraw
 	 * @param amount  the amount to withdraw
 	 * @param waitFor the condition to wait for
-	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn. False otherwise.
+	 * @return the return value of {@code waitFor} if items were attempted to be withdrawn; otherwise, {@code false}
 	 */
 	public boolean withdraw(final Item item, final int amount, final Callable<Boolean> waitFor) {
 		if (!opened() || !item.valid() || amount < Amount.values()[0].getValue() || !scrollToItem(item)) {
