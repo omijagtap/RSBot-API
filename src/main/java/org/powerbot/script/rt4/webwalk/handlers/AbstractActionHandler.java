@@ -1,4 +1,4 @@
-package org.powerbot.script.rt4.webwalk;
+package org.powerbot.script.rt4.webwalk.handlers;
 
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
@@ -14,11 +14,11 @@ public abstract class AbstractActionHandler {
 		this.target = target;
 	}
 
-	abstract boolean interact(final ClientContext ctx);
+	public abstract boolean interact(final ClientContext ctx);
 
-	abstract boolean valid(final ClientContext ctx);
+	public abstract boolean valid(final ClientContext ctx);
 
-	abstract HandlerCondition success();
+	public abstract HandlerCondition success();
 
 	public Tile getSource() {
 		return source;

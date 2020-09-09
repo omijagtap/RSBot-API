@@ -1,4 +1,4 @@
-package org.powerbot.script.rt4.webwalk.obstacle;
+package org.powerbot.script.rt4.webwalk.handlers;
 
 import java.util.regex.Pattern;
 

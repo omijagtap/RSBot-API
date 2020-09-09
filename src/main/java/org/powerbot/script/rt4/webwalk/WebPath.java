@@ -1,6 +1,7 @@
 package org.powerbot.script.rt4.webwalk;
 
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.webwalk.handlers.AbstractActionHandler;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

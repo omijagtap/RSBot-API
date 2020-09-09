@@ -1,4 +1,4 @@
-package org.powerbot.script.rt4.webwalk;
+package org.powerbot.script.rt4.webwalk.handlers;
 
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

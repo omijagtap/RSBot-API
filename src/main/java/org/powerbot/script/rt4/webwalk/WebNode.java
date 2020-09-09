@@ -1,13 +1,16 @@
 package org.powerbot.script.rt4.webwalk;
 
+import org.powerbot.script.rt4.webwalk.handlers.AbstractActionHandler;
+
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class WebNode {
+public class WebNode implements Serializable {
 
-	private final int x, y, z;
+	protected int x, y, z;
 	private final Map<WebNode, WebEdge> edges = new HashMap<>();
 
 	public WebNode(final int x, final int y) {
@@ -21,7 +24,19 @@ public class WebNode {
 	}
 
 	public void addEdge(final WebNode node, final AbstractActionHandler action) {
-		edges.put(node, new WebEdge(node, action));
+		edges.put(node, new WebEdge(node, distanceTo(node), action));
+	}
+
+	public int x() {
+		return x;
+	}
+
+	public int y() {
+		return y;
+	}
+
+	public int z() {
+		return z;
 	}
 
 	public WebEdge edgeTo(final WebNode target) {
@@ -55,5 +70,14 @@ public class WebNode {
 	@Override
 	public int hashCode() {
 		return Objects.hash(x, y, z, edges);
+	}
+
+	@Override
+	public String toString() {
+		return "WebNode{" +
+				"x=" + x +
+				", y=" + y +
+				", z=" + z +
+				'}';
 	}
 }

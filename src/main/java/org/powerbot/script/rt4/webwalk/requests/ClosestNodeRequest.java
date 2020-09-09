@@ -2,6 +2,7 @@ package org.powerbot.script.rt4.webwalk.requests;
 
 import com.google.gson.Gson;
 import org.powerbot.script.Locatable;
+import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.webwalk.WebNode;
 
 public class ClosestNodeRequest implements Request<WebNode> {

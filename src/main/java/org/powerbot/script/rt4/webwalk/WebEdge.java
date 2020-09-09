@@ -1,5 +1,7 @@
 package org.powerbot.script.rt4.webwalk;
 
+import org.powerbot.script.rt4.webwalk.handlers.AbstractActionHandler;
+
 public class WebEdge {
 
 	private final WebNode target;
